@@ -1,9 +1,7 @@
-<h1 align="center">👾 Raymarching shader example</h1>
+<h1>👾 Raymarching shader example</h1>
 👉 https://raymarching.netlify.app/cube
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/gsimone/r3f-raymarching/master/screenshot.png" width="300" />
-<p>
+<img src="https://raw.githubusercontent.com/gsimone/r3f-raymarching/master/screenshot.png" width="300" />
 
 
 ## Getting Started
