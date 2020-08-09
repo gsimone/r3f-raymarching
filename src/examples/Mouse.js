@@ -1,3 +1,9 @@
+/**
+ * 
+ * A simple example of using the mouse to navigate the scene by moving the camera.
+ * Mouse and zoom vectors are passed to the shader as uniforms.
+ * 
+ */
 import * as THREE from 'three'
 import React, { useMemo, useRef } from "react";
 import {Plane, shaderMaterial, useAspect } from "drei";
