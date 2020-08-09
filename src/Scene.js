@@ -1,8 +1,9 @@
-import React, { useMemo, useRef } from "react";
-import { Icosahedron, Plane, shaderMaterial } from "drei";
+import React, { useRef } from "react";
+import {Plane, shaderMaterial } from "drei";
 import { useFrame, extend } from "react-three-fiber";
 import glsl from "babel-plugin-glsl/macro";
 
+// prettier ignore
 const frag =
 glsl`
 uniform float time;
@@ -146,7 +147,9 @@ void main()	{
 }
 `
 
-const vert = glsl`
+// prettier-ignore
+const vert = 
+glsl`
   varying vec2 vUv;
 
   void main()	{
