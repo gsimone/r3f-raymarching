@@ -1,11 +1,10 @@
 import React, { useRef } from "react";
-import {Plane, shaderMaterial, useAspect } from "drei";
+import { Plane, shaderMaterial, useAspect } from "drei";
 import { Canvas, useFrame, extend } from "react-three-fiber";
 import glsl from "babel-plugin-glsl/macro";
 
 // prettier ignore
-const frag =
-glsl`
+const frag = glsl`
 uniform float time;
 
 varying vec2 vUv;
@@ -141,7 +140,7 @@ void main()	{
 
     gl_FragColor = vec4(color, 1.);
 }
-`
+`;
 
 // prettier-ignore
 const vert = 
@@ -155,17 +154,16 @@ glsl`
   }
 `;
 
-extend({ MyMaterial: shaderMaterial({ time: 0 }, vert, glsl`${frag}`) }) 
+extend({ MyMaterial: shaderMaterial({ time: 0 }, vert, glsl`${frag}`) });
 
 function Scene() {
-  
-  const mat = useRef()
+  const mat = useRef();
   useFrame(() => {
     mat.current.uniforms.time.value += 1 / 20;
   });
 
-  const scale = useAspect("cover", window.innerWidth, window.innerHeight, 1)
-  const s = Math.min(...scale.slice(0, 2))
+  const scale = useAspect("cover", window.innerWidth, window.innerHeight, 1);
+  const s = Math.min(...scale.slice(0, 2));
 
   return (
     <Plane scale={[s, s, 1]}>
@@ -187,5 +185,5 @@ export default function CubeExample() {
     >
       <Scene />
     </Canvas>
-  )
-};
+  );
+}

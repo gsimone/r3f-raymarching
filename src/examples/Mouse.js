@@ -1,19 +1,17 @@
 /**
- * 
+ *
  * A simple example of using the mouse to navigate the scene by moving the camera.
  * Mouse and zoom vectors are passed to the shader as uniforms.
- * 
+ *
  */
-import * as THREE from 'three'
-import React, { useMemo, useRef } from "react";
-import {Plane, shaderMaterial, useAspect } from "drei";
+import React, { useRef } from "react";
+import { Plane, shaderMaterial, useAspect } from "drei";
 import { Canvas, useFrame, extend } from "react-three-fiber";
 import glsl from "babel-plugin-glsl/macro";
-import { useWheel } from 'react-use-gesture';
+import { useWheel } from "react-use-gesture";
 
 // prettier ignore
-const frag =
-glsl`
+const frag = glsl`
 uniform vec2 mouse;
 uniform float time;
 uniform float wheel;
@@ -143,7 +141,7 @@ void main()	{
 
     gl_FragColor = vec4(color, 1.);
 }
-`
+`;
 
 // prettier-ignore
 const vert = 
@@ -157,32 +155,32 @@ glsl`
   }
 `;
 
-extend({ MyMaterial: shaderMaterial({ time: 0, mouse: [0, 0], wheel: 0 }, vert, glsl`${frag}`) }) 
+extend({
+  MyMouseShaderMaterial: shaderMaterial(
+    { time: 0, mouse: [0, 0], wheel: 0 },
+    vert,
+    glsl`${frag}`
+  ),
+});
 
 function Scene() {
-  
-    const mouseV = useMemo(() => new THREE.Vector2(0, 0), [])
-    
-    const bind = useWheel(({ movement }) => {
-        const [,mov] = movement
-        mat.current.uniforms.wheel.value += mov
-    })
-    
-  const mat = useRef()
+  const mat = useRef();
   useFrame(({ mouse }) => {
     mat.current.uniforms.time.value += 1 / 20;
-
-    mouseV.set(mouse.x,mouse.y)
-
-    mat.current.uniforms.mouse.value = mouseV;
+    mat.current.uniforms.mouse.value = [mouse.x, mouse.y];
   });
 
-  const scale = useAspect("cover", window.innerWidth, window.innerHeight, 1)
-  const s = Math.min(...scale.slice(0, 2))
+  const bind = useWheel(({ movement }) => {
+    const [, mov] = movement;
+    mat.current.uniforms.wheel.value += mov;
+  });
+
+  const scale = useAspect("cover", window.innerWidth, window.innerHeight, 1);
+  const s = Math.min(...scale.slice(0, 2));
 
   return (
     <Plane scale={[s, s, 1]} {...bind()}>
-      <myMaterial ref={mat} />
+      <myMouseShaderMaterial ref={mat} />
     </Plane>
   );
 }
@@ -200,5 +198,5 @@ export default function CubeExample() {
     >
       <Scene />
     </Canvas>
-  )
-};
+  );
+}
