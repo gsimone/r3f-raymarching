@@ -1,4 +1,7 @@
-# 👾 Raymarching shader example
+<h1 align="center">👾 Raymarching shader example</h1>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/gsimone/r3f-raymarching/master/screenshot.png" width="300" />
+<p>
 
 I followed this tutorial/live coding video https://www.youtube.com/watch?v=afc8qabsGYg&t=1336s by [@akella](https://twitter.com/akella) 
 
