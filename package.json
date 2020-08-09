@@ -11,10 +11,15 @@
     "postprocessing": "^6.16.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-helmet": "^6.1.0",
     "react-postprocessing": "^1.1.4",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.0-next.77",
     "react-three-fiber": "5.0.0-beta.11",
     "react-three-gui": "^0.1.5",
+    "react-use-gesture": "^7.0.15",
+    "styled-components": "^5.1.1",
     "three": "^0.119.1"
   },
   "scripts": {

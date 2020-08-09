@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import {Plane, shaderMaterial, useAspect } from "drei";
-import { useFrame, extend } from "react-three-fiber";
+import { Canvas, useFrame, extend } from "react-three-fiber";
 import glsl from "babel-plugin-glsl/macro";
 
 // prettier ignore
@@ -174,4 +174,18 @@ function Scene() {
   );
 }
 
-export default Scene;
+export default function CubeExample() {
+  return (
+    <Canvas
+      shadowMap
+      colorManagement
+      camera={{ position: [0, 0, 2], far: 50 }}
+      style={{
+        background: "#121212",
+      }}
+      concurrent
+    >
+      <Scene />
+    </Canvas>
+  )
+};
