@@ -1,4 +1,4 @@
-# Raymarching shader example
+# 👾 Raymarching shader example
 
 I followed this tutorial/live coding video https://www.youtube.com/watch?v=afc8qabsGYg&t=1336s by [@akella](https://twitter.com/akella) 
 
