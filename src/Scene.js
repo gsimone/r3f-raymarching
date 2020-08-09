@@ -14,20 +14,20 @@ varying vec3 vViewPosition;
 
 // https://gist.github.com/yiwenl/3f804e80d0930e34a0b33359259b556c
 mat4 rotationMatrix(vec3 axis, float angle) {
-    axis = normalize(axis);
-    float s = sin(angle);
-    float c = cos(angle);
-    float oc = 1.0 - c;
-    
-    return mat4(oc * axis.x * axis.x + c,           oc * axis.x * axis.y - axis.z * s,  oc * axis.z * axis.x + axis.y * s,  0.0,
-                oc * axis.x * axis.y + axis.z * s,  oc * axis.y * axis.y + c,           oc * axis.y * axis.z - axis.x * s,  0.0,
-                oc * axis.z * axis.x - axis.y * s,  oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c,           0.0,
-                0.0,                                0.0,                                0.0,                                1.0);
+  axis = normalize(axis);
+  float s = sin(angle);
+  float c = cos(angle);
+  float oc = 1.0 - c;
+  
+  return mat4(oc * axis.x * axis.x + c,           oc * axis.x * axis.y - axis.z * s,  oc * axis.z * axis.x + axis.y * s,  0.0,
+              oc * axis.x * axis.y + axis.z * s,  oc * axis.y * axis.y + c,           oc * axis.y * axis.z - axis.x * s,  0.0,
+              oc * axis.z * axis.x - axis.y * s,  oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c,           0.0,
+              0.0,                                0.0,                                0.0,                                1.0);
 }
 
- rotate(vec3 v, vec3 axis, float angle) {
-	mat4 m = rotationMatrix(axis, angle);
-	return (m * vec4(v, 1.0)).xyz;
+vec3 rotate(vec3 v, vec3 axis, float angle) {
+  mat4 m = rotationMatrix(axis, angle);
+  return (m * vec4(v, 1.0)).xyz;
 }
 
 
@@ -42,21 +42,9 @@ float sdBox( vec3 p, vec3 b )
   return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0);
 }
 
-float SineCrazy(vec3 p) {
-
-  return 1. - (sin(p.x) + sin(p.y) + sin(p.z)) / 3.; 
-
-}
-
 vec3 pal( in float t, in vec3 a, in vec3 b, in vec3 c, in vec3 d )
 {
     return a + b*cos( 6.28318*(c*t+d) );
-}
-
-float sdOctahedron( vec3 p, float s)
-{
-  p = abs(p);
-  return (p.x+p.y+p.z-s)*0.57735027;
 }
 
 float opSmoothUnion( float d1, float d2, float k ) {
@@ -130,13 +118,7 @@ void main()	{
 
       // if hitting the object
       if (abs(curDist) < 0.001) {
-
-        vec3 norm = getNormal(rayPos);
-
-        float diff = dot(norm, light);
-
         break;
- 
       }
 
       color += 0.01 * getColorAmount(rayPos);
