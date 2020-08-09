@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import {Plane, shaderMaterial } from "drei";
+import {Plane, shaderMaterial, useAspect } from "drei";
 import { useFrame, extend } from "react-three-fiber";
 import glsl from "babel-plugin-glsl/macro";
 
@@ -34,6 +34,19 @@ vec3 rotate(vec3 v, vec3 axis, float angle) {
 // https://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm
 float sdSphere(vec3 p, float radius) {
   return length(p) - radius;
+}
+
+
+float SineCrazy(vec3 p) {
+
+  return 1. - (sin(p.x) + sin(p.y) + sin(p.z)) / 3.; 
+
+}
+
+float sdOctahedron( vec3 p, float s)
+{
+  p = abs(p);
+  return (p.x+p.y+p.z-s)*0.57735027;
 }
 
 float sdBox( vec3 p, vec3 b )
@@ -93,10 +106,11 @@ vec3 getColorAmount(vec3 p) {
 
 void main()	{
 
+    vec2 uv = vUv;
+  
     vec3 camPos = vec3(0, 0, 2.);
 
-
-    vec2 p = vUv - vec2(0.5);
+    vec2 p = uv - vec2(0.5);
     vec3 ray = normalize(vec3(p, -1.));
 
     vec3 rayPos = camPos;
@@ -136,6 +150,7 @@ glsl`
 
   void main()	{
     vUv = uv;
+    
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
   }
 `;
@@ -146,11 +161,14 @@ function Scene() {
   
   const mat = useRef()
   useFrame(() => {
-    mat.current.uniforms.time.value += 1;
+    mat.current.uniforms.time.value += 1 / 20;
   });
-  
+
+  const scale = useAspect("cover", window.innerWidth, window.innerHeight, 1)
+  const s = Math.min(...scale.slice(0, 2))
+
   return (
-    <Plane>
+    <Plane scale={[s, s, 1]}>
       <myMaterial ref={mat} />
     </Plane>
   );
