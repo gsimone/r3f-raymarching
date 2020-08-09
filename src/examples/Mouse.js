@@ -4,17 +4,19 @@
  * Mouse and zoom vectors are passed to the shader as uniforms.
  *
  */
-import React, { useRef } from "react";
+import * as THREE from 'three'
+import React, { useRef, useMemo } from "react";
 import { Plane, shaderMaterial, useAspect } from "drei";
 import { Canvas, useFrame, extend } from "react-three-fiber";
 import glsl from "babel-plugin-glsl/macro";
-import { useWheel } from "react-use-gesture";
+import { useDrag, useWheel } from "react-use-gesture";
 
 // prettier ignore
-const frag = glsl`
+const frag = 
+glsl`
 uniform vec2 mouse;
 uniform float time;
-uniform float wheel;
+uniform vec3 pos;
 
 varying vec2 vUv;
 varying vec3 vNormal;
@@ -108,7 +110,7 @@ vec3 getColorAmount(vec3 p) {
 void main()	{
     vec2 uv = vUv;
   
-    vec3 camPos = vec3(mouse, wheel / 200.);
+    vec3 camPos = vec3(pos);
 
     vec2 p = uv - vec2(0.5);
     vec3 ray = normalize(vec3(p, -1.));
@@ -157,35 +159,50 @@ glsl`
 
 extend({
   MyMouseShaderMaterial: shaderMaterial(
-    { time: 0, mouse: [0, 0], wheel: 0 },
+    { 
+      time: 0, 
+      mouse: [0, 0], 
+      pos: [0, 0, 0] },
     vert,
     glsl`${frag}`
   ),
 });
 
+
 function Scene() {
+  const pos = useRef(new THREE.Vector3(0, 0, 0))
+  
   const mat = useRef();
-  useFrame(({ mouse }) => {
-    mat.current.uniforms.time.value += 1 / 20;
-    mat.current.uniforms.mouse.value = [mouse.x, mouse.y];
-  });
+  
+  const bindDrag = useDrag(() => {
+    console.log("drag")
+  })
 
   const bind = useWheel(({ movement }) => {
     const [, mov] = movement;
-    mat.current.uniforms.wheel.value += mov;
+
+    pos.current.z += mov / 100;
   });
 
-  const scale = useAspect("cover", window.innerWidth, window.innerHeight, 1);
-  const s = Math.min(...scale.slice(0, 2));
+  useFrame(({ mouse }) => {
+    mat.current.uniforms.time.value += 1 / 20;
+    mat.current.uniforms.mouse.value = [mouse.x, mouse.y];
+
+    mat.current.uniforms.pos.value = pos.current;
+  });
+
+  const [sx, sy] = useAspect("cover", window.innerWidth, window.innerHeight, 1);
+  const s = Math.min(sx,sy);
 
   return (
-    <Plane scale={[s, s, 1]} {...bind()}>
+    <Plane scale={[s, s, 1]} {...bindDrag()}>
       <myMouseShaderMaterial ref={mat} />
     </Plane>
   );
 }
 
 export default function CubeExample() {
+  
   return (
     <Canvas
       shadowMap
