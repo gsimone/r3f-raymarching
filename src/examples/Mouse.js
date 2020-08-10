@@ -5,7 +5,7 @@
  *
  */
 import * as THREE from 'three'
-import React, { useRef, useMemo } from "react";
+import React, { useRef } from "react";
 import { Plane, shaderMaterial, useAspect } from "drei";
 import { Canvas, useFrame, extend } from "react-three-fiber";
 import glsl from "babel-plugin-glsl/macro";
@@ -115,7 +115,7 @@ void main()	{
     vec3 camPos = vec3(pos);
 
     vec2 p = uv - vec2(0.5);
-    vec3 ray = normalize(vec3(p, -1.));
+    vec3 ray = normalize(vec3(p, 1.));
 
     vec3 rayPos = camPos;
 
