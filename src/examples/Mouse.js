@@ -177,8 +177,14 @@ function Scene() {
   const mat = useRef();
 
   const bind = useGesture({
-    onDrag: ({ offset: [x, y], vxvy: [vx, vy], down, ...props }) => console.log("drag"),
-    onWheel: ({ movement }) => { const [, mov] = movement; pos.current.z += mov / 100; }
+    onDrag: ({ offset: [x, y], vxvy: [vx, vy], down, ...props }) => {
+      pos.current.x += vx / 100
+      pos.current.y += vy / 100
+    },
+    onWheel: ({ movement }) => { 
+      const [, mov] = movement; 
+      pos.current.z += mov / 100; 
+    }
   })
 
   useFrame(({ mouse }) => {
