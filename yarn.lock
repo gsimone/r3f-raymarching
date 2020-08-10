@@ -9546,10 +9546,10 @@ react-use-gesture@^6.0.1:
   resolved "https://registry.yarnpkg.com/react-use-gesture/-/react-use-gesture-6.0.14.tgz#ab2d35ef72a5fb6060a6160eb12568c276f8a4b1"
   integrity sha512-d9cnZJ0DOFd3FIO76J776DyhtbODgbxGKu19lvc1aSNTnRV5EKr9V4Uda188l2Qh0Va3pqWGxEQlw72r2cmnFQ==
 
-react-use-gesture@^7.0.15:
-  version "7.0.15"
-  resolved "https://registry.yarnpkg.com/react-use-gesture/-/react-use-gesture-7.0.15.tgz#93c651e916a31cfb12d079e7fa1543d5b0511e07"
-  integrity sha512-vHQkaa7oUbSDTAcFk9huQXa7E8KPrZH91erPuOMoqZT513qvtbb/SzTQ33lHc71/kOoJkMbzOkc4uoA4sT7Ogg==
+react-use-gesture@^8.0.0-alpha.2:
+  version "8.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/react-use-gesture/-/react-use-gesture-8.0.0-alpha.2.tgz#b0231e8f27e9c359bf6049730c21576b7be28ffa"
+  integrity sha512-glTuBR1KLw29tFneYHJVsMgqRDc07x4LwBmMrWwHRWSfz/hT/xZtKWNIKKa6iOcvqkWk0DlBIwWjYWhuWkEfPg==
 
 react-use-measure@^2.0.1:
   version "2.0.1"

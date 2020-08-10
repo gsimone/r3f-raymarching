@@ -9,7 +9,9 @@ import React, { useRef, useMemo } from "react";
 import { Plane, shaderMaterial, useAspect } from "drei";
 import { Canvas, useFrame, extend } from "react-three-fiber";
 import glsl from "babel-plugin-glsl/macro";
-import { useDrag, useWheel } from "react-use-gesture";
+import { useGesture } from "react-use-gesture";
+
+import "styled-components/macro"
 
 // prettier ignore
 const frag = 
@@ -173,16 +175,11 @@ function Scene() {
   const pos = useRef(new THREE.Vector3(0, 0, 0))
   
   const mat = useRef();
-  
-  const bindDrag = useDrag(() => {
-    console.log("drag")
+
+  const bind = useGesture({
+    onDrag: ({ offset: [x, y], vxvy: [vx, vy], down, ...props }) => console.log("drag"),
+    onWheel: ({ movement }) => { const [, mov] = movement; pos.current.z += mov / 100; }
   })
-
-  const bind = useWheel(({ movement }) => {
-    const [, mov] = movement;
-
-    pos.current.z += mov / 100;
-  });
 
   useFrame(({ mouse }) => {
     mat.current.uniforms.time.value += 1 / 20;
@@ -195,7 +192,7 @@ function Scene() {
   const s = Math.min(sx,sy);
 
   return (
-    <Plane scale={[s, s, 1]} {...bindDrag()}>
+    <Plane scale={[s, s, 1]} {...bind()} >
       <myMouseShaderMaterial ref={mat} />
     </Plane>
   );
@@ -208,9 +205,11 @@ export default function CubeExample() {
       shadowMap
       colorManagement
       camera={{ position: [0, 0, 2], far: 50 }}
-      style={{
-        background: "#121212",
-      }}
+      css={`
+        canvas {
+          touch-action: none;
+        }
+      `}
       concurrent
     >
       <Scene />
