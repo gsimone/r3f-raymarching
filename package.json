@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.11.1",
+    "@craco/craco": "^5.6.4",
     "@react-spring/three": "^9.0.0-rc.3",
     "babel-plugin-glsl": "^1.0.0",
+    "craco-glslify-loader": "^1.0.0",
     "drei": "^0.0.72",
     "glsl-noise": "^0.0.0",
     "postprocessing": "^6.16.0",
@@ -23,9 +25,9 @@
     "three": "^0.119.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build",
+    "eject": "craco eject"
   },
   "eslintConfig": {
     "extends": "react-app"

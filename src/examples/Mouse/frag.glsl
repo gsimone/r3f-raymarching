@@ -1,11 +1,6 @@
-import React, { useRef } from "react";
-import { Plane, shaderMaterial, useAspect } from "drei";
-import { Canvas, useFrame, extend } from "react-three-fiber";
-import glsl from "babel-plugin-glsl/macro";
-
-// prettier ignore
-const frag = glsl`
+uniform vec2 mouse;
 uniform float time;
+uniform vec3 pos;
 
 varying vec2 vUv;
 varying vec3 vNormal;
@@ -37,9 +32,7 @@ float sdSphere(vec3 p, float radius) {
 
 
 float SineCrazy(vec3 p) {
-
   return 1. - (sin(p.x) + sin(p.y) + sin(p.z)) / 3.; 
-
 }
 
 float sdOctahedron( vec3 p, float s)
@@ -69,12 +62,7 @@ float scene(vec3 p) {
 
   float scale  = 10. + 5. * sin(time);
 
-  float f = max(
-    sdOctahedron(p1, .5),
-    (0.85 - SineCrazy(p1 * scale)) / scale
-  );
-
-  return opSmoothUnion( sdSphere(p1, .25 + .5 * sin(time)), sdBox(p1, vec3(.4)), .4 );
+  return SineCrazy(p * 6.);
 }
 
 
@@ -97,20 +85,19 @@ vec3 getColorAmount(vec3 p) {
 
   float amount = clamp(1.5 - length(p)/2., 0., 1.);
 
-  vec3 col = pal( amount, vec3(0.5,0.5,0.5),vec3(0.5,0.5,0.5),vec3(1.0,1.0,0.5),vec3(0.8,0.90,0.30) );
+  vec3 col = pal( amount, vec3(0.5,0.5,0.5),vec3(0.5,0.5,0.5),vec3(1.0,1.0,1.0),vec3(0.0,0.10,0.20) );
 
   return col * amount;
 
 } 
 
 void main()	{
-
     vec2 uv = vUv;
   
-    vec3 camPos = vec3(0, 0, 2.);
+    vec3 camPos = vec3(pos);
 
     vec2 p = uv - vec2(0.5);
-    vec3 ray = normalize(vec3(p, -1.));
+    vec3 ray = normalize(vec3(p, 1.));
 
     vec3 rayPos = camPos;
 
@@ -139,51 +126,4 @@ void main()	{
     }
 
     gl_FragColor = vec4(color, 1.);
-}
-`;
-
-// prettier-ignore
-const vert = 
-glsl`
-  varying vec2 vUv;
-
-  void main()	{
-    vUv = uv;
-    
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
-  }
-`;
-
-extend({ MyMaterial: shaderMaterial({ time: 0 }, vert, glsl`${frag}`) });
-
-function Scene() {
-  const mat = useRef();
-  useFrame(() => {
-    mat.current.uniforms.time.value += 1 / 20;
-  });
-
-  const scale = useAspect("cover", window.innerWidth, window.innerHeight, 1);
-  const s = Math.min(...scale.slice(0, 2));
-
-  return (
-    <Plane scale={[s, s, 1]}>
-      <myMaterial ref={mat} />
-    </Plane>
-  );
-}
-
-export default function CubeExample() {
-  return (
-    <Canvas
-      shadowMap
-      colorManagement
-      camera={{ position: [0, 0, 2], far: 50 }}
-      style={{
-        background: "#121212",
-      }}
-      concurrent
-    >
-      <Scene />
-    </Canvas>
-  );
 }
