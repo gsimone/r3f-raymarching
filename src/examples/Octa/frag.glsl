@@ -73,22 +73,12 @@ float scene(vec3 p) {
   
   float scale  = 6.;
 
-  float minO = max(
-    sdSphere(p, .4),
-    sdBox(p2, vec3(.3))
-  );
-
   float sinecc = (0.836 - SineCrazy((p2 + vec3(0., .2, 0.)) * scale)) / scale;
-
-  float frame = opSubtraction(
-    sdSphere(p, 0.400),
-    minO
-  );
 
   return max(
       sdOctahedron(p1, 0.756),
       sinecc
-);
+  );
 }
 
 // get normal for each point in the scene
@@ -134,7 +124,7 @@ void main()	{
     textureColor = texture2D(text, vUv).rgb;
     vec3 finalColor = vec3(0.);
 
-    for (int i = 0; i <= 128; i++) {
+    for (int i = 0; i <= 64; i++) {
       curDist = scene(rayPos);
       rayLength +=  0.536 * curDist;
       rayPos = camPos + ray * rayLength;
