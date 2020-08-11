@@ -12,8 +12,7 @@ function Scene() {
   const mat = useRef();
 
   useFrame(({ clock }) => {
-    const time = clock.getElapsedTime() % 8
-    mat.current.uniforms.time.value = time / 6.
+    mat.current.uniforms.time.value = clock.getElapsedTime() / 6.
   });
 
   const scale = useAspect("cover", window.innerWidth, window.innerHeight, 1);
