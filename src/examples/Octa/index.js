@@ -6,7 +6,6 @@ import { Recorder, useCapture } from 'use-capture'
 
 import frag from './frag.glsl'
 import vert from './vert.glsl'
-import { Bloom, EffectComposer, Noise } from "react-postprocessing";
 
 extend({ SphereExampleMaterial: shaderMaterial({ time: 0 }, vert, frag) });
 
