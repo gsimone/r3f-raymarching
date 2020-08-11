@@ -7,7 +7,7 @@
     "@craco/craco": "^5.6.4",
     "@react-spring/three": "^9.0.0-rc.3",
     "babel-plugin-glsl": "^1.0.0",
-    "craco-glslify-loader": "^1.0.0",
+    "craco-glslify-loader": "^1.0.2",
     "drei": "^0.0.72",
     "glsl-noise": "^0.0.0",
     "postprocessing": "^6.16.0",
@@ -22,7 +22,8 @@
     "react-three-gui": "^0.1.5",
     "react-use-gesture": "^8.0.0-alpha.2",
     "styled-components": "^5.1.1",
-    "three": "^0.119.1"
+    "three": "^0.119.1",
+    "use-capture": "^0.1.0"
   },
   "scripts": {
     "start": "craco start",

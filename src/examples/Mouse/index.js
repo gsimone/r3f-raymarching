@@ -15,7 +15,6 @@ import vert from './vert.glsl'
 
 import "styled-components/macro"
 
-
 extend({
   MyMouseShaderMaterial: shaderMaterial(
     { 
