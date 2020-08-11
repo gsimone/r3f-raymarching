@@ -29,6 +29,7 @@ float sdSphere(vec3 p, float radius) {
   return length(p) - radius;
 }
 
+// @akella
 float SineCrazy(vec3 p) {
   return 1. - (sin(p.x) + sin(p.y) + sin(p.z)) / 3.; 
 }
@@ -43,11 +44,6 @@ float sdBox( vec3 p, vec3 b )
 {
   vec3 q = abs(p) - b;
   return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0);
-}
-
-vec3 pal( in float t, in vec3 a, in vec3 b, in vec3 c, in vec3 d )
-{
-    return a + b*cos( 6.28318*(c*t+d) );
 }
 
 float opSmoothUnion( float d1, float d2, float k ) {
@@ -106,17 +102,6 @@ vec3 getNormal(vec3 p){
 			scene(p + o.yyx) - scene(p - o.yyx)
 		)
 	);
-}
-
-vec3 palette( in float t, in vec3 a, in vec3 b, in vec3 c, in vec3 d )
-{
-    return a + b*cos( 6.28318*(c*t+d) );
-}
-
-vec3 getColor(float amount) {
-  vec3 color = 0.5 + .5 * cos(6.28319 * (vec3(0.2, 0.,0.) + amount * vec3(1., 1., 0.5)));
-
-  return color * amount;
 }
 
 vec3 getColorAmount(vec3 p) {
