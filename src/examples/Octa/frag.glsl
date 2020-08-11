@@ -3,7 +3,8 @@ precision mediump float;
 #endif
 
 varying vec2 vUv;
-
+uniform sampler2D text;
+uniform vec2 resolution;
 uniform float time;
 
 // https://gist.github.com/yiwenl/3f804e80d0930e34a0b33359259b556c
@@ -67,8 +68,8 @@ float opIntersection( float d1, float d2 ) { return max(d1,d2); }
 
 float scene(vec3 p) {
 
-  vec3 p1 = rotate(p, vec3(0.,1.,0.), time / 4. * 6.283185);
-  vec3 p2 = rotate(p, vec3(1.), -time / 8. * 6.283185);
+  vec3 p1 = rotate(p, vec3(0.,1.,0.), time * 6.283185);
+  vec3 p2 = rotate(p, vec3(1.), -time  * 6.283185);
   
   float scale  = 6.;
 
@@ -113,7 +114,9 @@ vec3 getColorAmount(vec3 p) {
 }
 
 void main()	{
-    vec2 uv = vUv;
+    float x = resolution.x / resolution.y;
+    
+    vec2 uv = vUv * vec2(x, 1.) + vec2((1. - x)/2., 0.);
   
     vec3 camPos = vec3(0, 0, 2.);
     vec2 p = uv - vec2(0.5);
@@ -122,8 +125,15 @@ void main()	{
     float curDist = 0.;
     // from camera to point
     float rayLength = 0.;
-    vec3 color = vec3(0.);
     vec3 light = vec3(1.,1.,1.);
+
+    bool hit = false;
+
+
+    vec3 textureColor = vec3(0.);
+    textureColor = texture2D(text, vUv).rgb;
+    vec3 finalColor = vec3(0.);
+
     for (int i = 0; i <= 128; i++) {
       curDist = scene(rayPos);
       rayLength +=  0.536 * curDist;
@@ -140,7 +150,15 @@ void main()	{
         break;
       }
 
-      color += 0.052 * getColorAmount(rayPos);
+      finalColor +=  (0.052 * getColorAmount(rayPos));
+
     }
+
+    vec3 color = finalColor;
+
+    if (scene(rayPos) > 0.1) {
+      color = max(finalColor, textureColor);
+    } 
+
     gl_FragColor = vec4(color, 1.);
 }

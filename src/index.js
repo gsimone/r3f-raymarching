@@ -74,6 +74,7 @@ render(
           css={`
             display: flex;
             flex: 0 120px;
+            display: none;
           `}
         >
           <Nav />
