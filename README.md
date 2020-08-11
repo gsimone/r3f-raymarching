@@ -1,4 +1,5 @@
-<h1>👾 Raymarching shader example</h1>
+# 👾 Raymarching shaders
+
 ## 👉 https://raymarching.netlify.app/cube
 
 <img src="https://raw.githubusercontent.com/gsimone/r3f-raymarching/master/screenshot.png" width="300" />
