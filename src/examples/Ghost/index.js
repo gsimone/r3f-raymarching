@@ -12,7 +12,7 @@ function Scene() {
   const mat = useRef();
 
   useFrame(({ clock }) => {
-    mat.current.uniforms.time.value = clock.getElapsedTime() / 6.
+    mat.current.uniforms.time.value += 0.1
   });
 
   const scale = useAspect("cover", window.innerWidth, window.innerHeight, 1);
@@ -31,8 +31,8 @@ export default function CubeExample() {
   return (
     <Canvas
       shadowMap
-      pixelRatio={0.2}
       colorManagement
+      pixelRatio={0.2}
       camera={{ position: [0, 0, 2], far: 50 }}
       style={{
         background: "#000",
