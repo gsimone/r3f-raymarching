@@ -100,9 +100,10 @@ float scene(vec3 p) {
   vec3 p1 = p + vec3(0., -.2, 0.) + (vec3(0.,.04,0.) * sin(time * 20.));
   vec3 tailP = p1 + vec3(.1, 0., 0.) * sin(time * 20.);
   
+  float tailT = sin(time * 10.);
   float tail = opSmoothUnion(
       sdSphere(p1 + vec3(0, .2, 0), .12),
-      sdSphere(p1 + vec3(0., .6, 0.) + vec3(-.3 * sin(time * 10.), sin(time) * -.1, 0), .01),
+      sdSphere(p1 + vec3(0., .6, 0.) + vec3(-.3 * tailT, .02 * tailT, 0), .02),
       .5
     );
 
