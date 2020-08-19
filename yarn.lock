@@ -5421,6 +5421,11 @@ globby@^6.1.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
+glsl-easings@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/glsl-easings/-/glsl-easings-1.0.0.tgz#d4f7b499915e922921f4f03d0f8089724bdf5b8e"
+  integrity sha1-1Pe0mZFekikh9PA9D4CJckvfW44=
+
 glsl-inject-defines@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/glsl-inject-defines/-/glsl-inject-defines-1.0.3.tgz#dd1aacc2c17fcb2bd3fc32411c6633d0d7b60fd4"

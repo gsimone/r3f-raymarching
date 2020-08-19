@@ -1,12 +1,13 @@
-import { lazy } from 'react'
+import { lazy } from "react";
 
-const examples =  {
-    cube: { title: "Cube", _: lazy(() => import('./Cube'))},
-    mouse: { title: "Mouse Interaction", _: lazy(() => import('./Mouse'))},
-    sphere: { title: "Sphere", _: lazy(() => import('./Sphere'))},
-    octa: { title: "Octa", _: lazy(() => import('./Octa'))},
-    metaballs: { title: "Meta", _: lazy(() => import('./Metaballs'))},
-    ghost: { title: "Ghost", _: lazy(() => import('./Ghost'))},
-}
+const examples = {
+  cube: { title: "Cube", _: lazy(() => import("./Cube")) },
+  mouse: { title: "Mouse Interaction", _: lazy(() => import("./Mouse")) },
+  sphere: { title: "Sphere", _: lazy(() => import("./Sphere")) },
+  octa: { title: "Octa", _: lazy(() => import("./Octa")) },
+  metaballs: { title: "Meta", _: lazy(() => import("./Metaballs")) },
+  ghost: { title: "Ghost", _: lazy(() => import("./Ghost")) },
+  ctrl: { title: "Ctrl", _: lazy(() => import("./ControlExp")) },
+};
 
-export default examples
+export default examples;

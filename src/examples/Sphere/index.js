@@ -2,38 +2,32 @@ import React, { useRef, useEffect } from "react";
 import { Plane, shaderMaterial, useAspect } from "drei";
 import { Canvas, useFrame, extend } from "react-three-fiber";
 
-import { Recorder, useCapture } from 'use-capture'
+import { Recorder, useCapture } from "use-capture";
 
-import frag from './frag.glsl'
-import vert from './vert.glsl'
+import frag from "./frag.glsl";
+import vert from "../../common/defaultVertexShader.glsl";
 
 extend({ SphereExampleMaterial: shaderMaterial({ time: 0 }, vert, frag) });
 
 function Scene() {
+  const { getProgress, startRecording } = useCapture();
 
-  const { getProgress, startRecording } = useCapture()
- 
   useEffect(() => {
-
-    const h = e => {
-
+    const h = (e) => {
       if (e.key === "r") {
-        startRecording()
+        startRecording();
       }
+    };
 
-    }
-
-    window.addEventListener('keydown', h)
+    window.addEventListener("keydown", h);
 
     return () => {
-      window.removeEventListener("keydown", h)
-    }
-
-  }, [startRecording])
+      window.removeEventListener("keydown", h);
+    };
+  }, [startRecording]);
 
   const mat = useRef();
   useFrame(({ clock }) => {
-    console.log(getProgress())
     mat.current.uniforms.time.value = getProgress();
   });
 

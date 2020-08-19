@@ -5,8 +5,8 @@ import {
   Switch,
   Route,
   Redirect,
-  Link,
 } from "react-router-dom";
+import { withRouter } from "react-router";
 import { Helmet } from "react-helmet";
 import "styled-components/macro";
 
@@ -34,31 +34,25 @@ function Loading() {
   );
 }
 
-function Nav() {
+const Menu = withRouter(function Menu(props) {
   return (
-    <ul css={`
-      margin: 0;
-      padding: 1rem;
-      color: white;
-    `}>
-      <h3>Nav</h3>
-      {Object.keys(examples).map((key) => {
-        return (
-          <li key={key} css={`
-            list-style: none;
-            a {
-              color: white;
-            }
-          `}>
-            <Link to={`/${key}`} key={key}>
-              {key}
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
+    <select
+      css={`
+        position: fixed;
+        bottom: 1rem;
+        left: 1rem;
+        z-index: 10;
+      `}
+      onChange={(e) => props.history.push(e.target.value)}
+    >
+      {Object.keys(examples).map((key) => (
+        <option key={key} value={key}>
+          {examples[key].title}
+        </option>
+      ))}
+    </select>
   );
-}
+});
 
 render(
   <React.StrictMode>
@@ -70,37 +64,24 @@ render(
           align-items: stretch;
         `}
       >
-        <div
-          css={`
-            display: flex;
-            flex: 0 120px;
-            display: none;
-          `}
-        >
-          <Nav />
-        </div>
-        <div
-          css={`
-            flex: 1;
-          `}
-        >
-          <Switch>
-            {Object.keys(examples).map((key) => {
-              const Example = examples[key]._;
+        <Menu />
 
-              return (
-                <Route key={key} path={`/${key}`}>
-                  <Helmet title={examples[key].title} />
-                  <Suspense fallback={<Loading />}>
-                    <Example />
-                  </Suspense>
-                </Route>
-              );
-            })}
-            {/* redirect 404 to first example */}
-            <Route children={<Redirect to={Object.keys(examples)[0]} />} />
-          </Switch>
-        </div>
+        <Switch>
+          {Object.keys(examples).map((key) => {
+            const Example = examples[key]._;
+
+            return (
+              <Route key={key} path={`/${key}`}>
+                <Helmet title={examples[key].title} />
+                <Suspense fallback={<Loading />}>
+                  <Example />
+                </Suspense>
+              </Route>
+            );
+          })}
+          {/* redirect 404 to first example */}
+          <Route children={<Redirect to={Object.keys(examples)[0]} />} />
+        </Switch>
       </div>
     </Router>
   </React.StrictMode>,

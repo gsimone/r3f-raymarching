@@ -1,26 +1,31 @@
-import React, { useRef,Suspense } from "react";
-import { Plane, shaderMaterial, Stats, useAspect  } from "drei";
+import React, { useRef, Suspense } from "react";
+import { Plane, shaderMaterial, Stats, useAspect } from "drei";
 import { Canvas, useFrame, extend } from "react-three-fiber";
 
-import frag from './frag.glsl'
-import vert from './vert.glsl'
+import frag from "./frag.glsl";
+import vert from "../../common/defaultVertexShader.glsl";
 
-extend({ SphereExampleMaterial: shaderMaterial({ resolution: [0, 0], time: 0, text: null }, vert, frag) });
-
+extend({
+  SphereExampleMaterial: shaderMaterial(
+    { resolution: [0, 0], time: 0, text: null },
+    vert,
+    frag
+  ),
+});
 
 function Scene() {
   const mat = useRef();
 
   useFrame(({ clock }) => {
-    mat.current.uniforms.time.value += 0.1
+    mat.current.uniforms.time.value += 0.1;
   });
 
   const scale = useAspect("cover", window.innerWidth, window.innerHeight, 1);
 
   return (
     <Plane scale={[...scale, 1]}>
-      <sphereExampleMaterial 
-        ref={mat} 
+      <sphereExampleMaterial
+        ref={mat}
         resolution={[window.innerWidth, window.innerHeight]}
       />
     </Plane>
