@@ -5,7 +5,8 @@ const examples =  {
     mouse: { title: "Mouse Interaction", _: lazy(() => import('./Mouse'))},
     sphere: { title: "Sphere", _: lazy(() => import('./Sphere'))},
     octa: { title: "Octa", _: lazy(() => import('./Octa'))},
-    metaballs: { title: "Meta", _: lazy(() => import('./Metaballs'))}
+    metaballs: { title: "Meta", _: lazy(() => import('./Metaballs'))},
+    ghost: { title: "Ghost", _: lazy(() => import('./Ghost'))},
 }
 
 export default examples

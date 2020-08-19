@@ -1,24 +1,28 @@
-import React, { useRef } from "react";
-import { Plane, shaderMaterial, useAspect } from "drei";
+import React, { useRef,  Suspense } from "react";
+import {  Plane, shaderMaterial, Stats, useAspect  } from "drei";
 import { Canvas, useFrame, extend } from "react-three-fiber";
 
 import frag from './frag.glsl'
 import vert from './vert.glsl'
 
-extend({ MyMaterial: shaderMaterial({ time: 0 }, vert, frag) });
+extend({ SphereExampleMaterial: shaderMaterial({ resolution: [0, 0], time: 0, text: null }, vert, frag) });
+
 
 function Scene() {
   const mat = useRef();
-  useFrame(() => {
-    mat.current.uniforms.time.value += 1 / 20;
+
+  useFrame(({ clock }) => {
+    mat.current.uniforms.time.value = clock.getElapsedTime() 
   });
 
   const scale = useAspect("cover", window.innerWidth, window.innerHeight, 1);
-  const s = Math.min(...scale.slice(0, 2));
 
   return (
-    <Plane scale={[s, s, 1]}>
-      <myMaterial ref={mat} />
+    <Plane scale={[...scale, 1]}>
+      <sphereExampleMaterial 
+        ref={mat} 
+        resolution={[window.innerWidth, window.innerHeight]}
+      />
     </Plane>
   );
 }
@@ -30,11 +34,14 @@ export default function CubeExample() {
       colorManagement
       camera={{ position: [0, 0, 2], far: 50 }}
       style={{
-        background: "#121212",
+        background: "#000",
       }}
       concurrent
     >
-      <Scene />
+      <Suspense fallback={null}>
+        <Scene />
+      </Suspense>
+      <Stats />
     </Canvas>
   );
 }

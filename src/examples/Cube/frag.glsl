@@ -1,7 +1,7 @@
-uniform float time;
 varying vec2 vUv;
-varying vec3 vNormal;
-varying vec3 vViewPosition;
+uniform vec2 resolution;
+uniform float time;
+
 // https://gist.github.com/yiwenl/3f804e80d0930e34a0b33359259b556c
 mat4 rotationMatrix(vec3 axis, float angle) {
   axis = normalize(axis);
@@ -69,8 +69,11 @@ vec3 getColorAmount(vec3 p) {
   vec3 col = pal( amount, vec3(0.5,0.5,0.5),vec3(0.5,0.5,0.5),vec3(1.0,1.0,0.5),vec3(0.8,0.90,0.30) );
   return col * amount;
 } 
+
 void main()	{
-    vec2 uv = vUv;
+    float x = resolution.x / resolution.y;
+    
+    vec2 uv = vUv * vec2(x, 1.) + vec2((1. - x)/2., 0.);
   
     vec3 camPos = vec3(0, 0, 2.);
     vec2 p = uv - vec2(0.5);
@@ -86,7 +89,7 @@ void main()	{
       rayLength +=  0.6 * curDist;
       rayPos = camPos + ray * rayLength;
       // if hitting the object
-      if (abs(curDist) < 0.001) {
+      if (abs(curDist) < 0.01) {
         break;
       }
       color += 0.01 * getColorAmount(rayPos);
