@@ -17,7 +17,8 @@ function useRenderTargetTexture() {
     scene.background = new THREE.Color('#000')
     const target = new THREE.WebGLMultisampleRenderTarget(1024, 1024, {
       format: THREE.RGBFormat,
-      stencilBuffer: false
+      stencilBuffer: false,
+      minFilter: null
     })
     return [scene, target]
   }, [])
@@ -44,29 +45,13 @@ function Scene() {
 
   const scale = useAspect("cover", window.innerWidth, window.innerHeight, 1);
 
-  const { texture, scene, camera } = useRenderTargetTexture()
-  
   return (
-    <>
-      {createPortal(<>
-        <Text 
-          maxWidth={10}
-          font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
-          fontSize={1} color="white">
-          React
-          three
-          Fiber
-        </Text>
-        <PerspectiveCamera ref={camera} position={[0, 0, 4]} />
-      </>, scene)}
-      <Plane scale={[...scale, 1]}>
-        <sphereExampleMaterial 
-          ref={mat} 
-          text={texture} 
-          resolution={[window.innerWidth, window.innerHeight]}
-        />
-      </Plane>
-    </>
+    <Plane scale={[...scale, 1]}>
+      <sphereExampleMaterial 
+        ref={mat} 
+        resolution={[window.innerWidth, window.innerHeight]}
+      />
+    </Plane>
   );
 }
 
@@ -79,7 +64,11 @@ export default function CubeExample() {
       style={{
         background: "#000",
       }}
+      antialias={true}
       concurrent
+      onCreated={({gl}) => {
+        console.log(gl)
+      }}
     >
       <Suspense fallback={null}>
         <Scene />

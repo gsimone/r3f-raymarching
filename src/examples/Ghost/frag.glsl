@@ -102,7 +102,7 @@ float scene(vec3 p) {
   
   float tail = opSmoothUnion(
       sdSphere(p1 + vec3(0, .2, 0), .12),
-      sdSphere(p1 + vec3(0., .5, 0.) + vec3(-.3, 0., 0) * sin(time * 10.), .01),
+      sdSphere(p1 + vec3(0., .6, 0.) + vec3(-.3 * sin(time * 10.), sin(time) * -.1, 0), .01),
       .5
     );
 
@@ -136,11 +136,11 @@ float scene(vec3 p) {
   );
 
   float hands = min(
-    sdRoundCone(rotate(p1 + vec3(.1, .25, -.4), vec3(1., 1., 1.), 10.), .03, .02, .05),
-    sdRoundCone(rotate(p1 + vec3(-.1, .25, -.4), vec3(-1., 1., 1.), 10.), .03, .02, .05)
+    sdSphere(p1 + vec3(.34, .1, -0.1), .1),
+    sdSphere(p1 + vec3(-.34, .1, -0.1), .1)
   );
 
-  return bodyWithEars;
+  return opSmoothUnion(bodyWithEars, hands, .1);
 }
 
 // get normal for each point in the scene
