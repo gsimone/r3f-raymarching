@@ -21,3 +21,7 @@ I followed this tutorial/live coding video https://www.youtube.com/watch?v=afc8q
 - [Improving the Rainbow](https://www.alanzucconi.com/2017/07/15/improving-the-rainbow/) by [@alanzucconi](https://twitter.com/AlanZucconi)
 - [Not so discreet charm of machine colors](https://medium.com/@kazikpogoda/not-so-discreet-charm-of-machine-colors-1390d4dba3db) by [@KazikPogoda](https://twitter.com/KazikPogoda)
 - [Raymarching Workshop](https://github.com/electricsquare/raymarching-workshop)
+
+## Shader stuff
+
+- [Unity Shaders](https://github.com/adrian-miasik/unity-shaders) A collection of basic shaders in Unity
