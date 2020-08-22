@@ -21,9 +21,7 @@ import {
 
 const tweaks = makeAll(
   {
-    BPM: { value: 60 },
-    divisions: { value: 1, min: 1, max: 100, step: 1 },
-    color: "#ff0191",
+    BPM: { value: 120 },
   },
   frag
 );
