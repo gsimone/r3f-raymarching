@@ -1,5 +1,5 @@
-import React, { Suspense } from "react";
-import { shaderMaterial, Stats } from "drei";
+import React from "react";
+import { shaderMaterial } from "drei";
 import { Canvas, extend } from "react-three-fiber";
 
 import ShaderPlane from "../../common/ShaderPlane";
