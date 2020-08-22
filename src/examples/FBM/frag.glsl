@@ -9,7 +9,7 @@ uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
 
-uniform float rotate;
+uniform float tint;
 uniform int octaves;
 uniform float lacunarity;
 uniform float gain;
@@ -40,6 +40,7 @@ float noise (in vec2 st) {
 }
 
 #pragma glslify: snoise2 = require(glsl-noise/simplex/2d) 
+#pragma glslify: rotate = require(../../common/rotate)
 
 // Ridged multifractal
 // See "Texturing & Modeling, A Procedural Approach", Chapter 12
@@ -110,5 +111,8 @@ void main() {
                 vec3(0.666667,1,1),
                 clamp(length(r.x),0.0,1.0));
 
-    gl_FragColor = vec4(color.r, color.g, color.b, 1.0);
+    gl_FragColor = vec4(
+      rotate(color, vec3(1.0) , tint), 
+      1.0
+    );
 } 

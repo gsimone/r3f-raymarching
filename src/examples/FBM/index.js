@@ -43,7 +43,7 @@ const tweaks = makeAll({
   octaves: { value: 6, step: 1, min: 1, max: 8 },
   lacunarity: { value: 1.95, min: 0, max: 5 },
   gain: { value: 0.52, min: 0, max: 1 },
-  rotate: { value: 0.57, min: 0, max: 1 },
+  tint: { value: 0.57, min: 0, max: Math.PI * 2 },
 });
 
 function Scene() {
