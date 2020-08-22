@@ -10,6 +10,7 @@ const examples = {
   fbm: { title: "7. FBM", _: lazy(() => import("./FBM")) },
   displace: { title: "8. Displace", _: lazy(() => import("./Displace")) },
   terrain: { title: "9. Terrain", _: lazy(() => import("./Terrain")) },
+  beats: { title: "10. Beats", _: lazy(() => import("./Beats")) },
 };
 
 export default examples;
