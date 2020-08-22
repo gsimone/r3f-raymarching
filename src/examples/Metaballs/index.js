@@ -41,7 +41,7 @@ function Scene() {
 }
 
 export default function CubeExample() {
-  const [bind, start] = useCapture({ duration: Math.PI * 2, fps: 60 });
+  const [bind, start] = useCapture({ duration: 2, fps: 60 });
   useTweaks("Capture", makeButton("🔴 Start recording", start));
 
   return (
@@ -58,6 +58,9 @@ export default function CubeExample() {
       <Canvas
         shadowMap
         colorManagement
+        gl={{
+          preserveDrawingBuffer: true,
+        }}
         camera={{ position: [0, 0, 2], far: 50 }}
         style={{
           background: "#000",
@@ -65,6 +68,7 @@ export default function CubeExample() {
         onCreated={bind}
         concurrent
       >
+        <color attach="background" args={["#000"]} />
         <Suspense fallback={null}>
           <Scene />
         </Suspense>

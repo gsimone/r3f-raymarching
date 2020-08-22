@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { shaderMaterial, Stats, useTextureLoader } from "drei";
+import { shaderMaterial, Stats } from "drei";
 import { Canvas, extend } from "react-three-fiber";
 
 import ShaderPlane from "../../common/ShaderPlane";
@@ -8,8 +8,7 @@ import "styled-components/macro";
 
 import frag from "./frag.glsl";
 import vert from "../../common/defaultVertexShader.glsl";
-import useCapture from "use-capture";
-import { makeButton, useTweaks } from "use-tweaks";
+import { useTweaks } from "use-tweaks";
 
 function getValues(inputs) {
   return Object.entries(inputs).reduce((acc, [key, input]) => {
@@ -41,9 +40,10 @@ function makeAll(data) {
 }
 
 const tweaks = makeAll({
-  octaves: { value: 4, step: 1, min: 1, max: 8 },
-  lacunarity: { value: 2, min: 0, max: 5 },
-  gain: { value: 0.5, min: 0, max: 1 },
+  octaves: { value: 6, step: 1, min: 1, max: 8 },
+  lacunarity: { value: 1.95, min: 0, max: 5 },
+  gain: { value: 0.52, min: 0, max: 1 },
+  rotate: { value: 0.57, min: 0, max: 1 },
 });
 
 function Scene() {
@@ -53,20 +53,20 @@ function Scene() {
 }
 
 export default function CubeExample() {
-  const [bind, start] = useCapture({ duration: Math.PI * 2, fps: 60 });
-  useTweaks("Capture", makeButton("🔴 Start recording", start));
-
   return (
     <Canvas
       shadowMap
       colorManagement
+      gl={{
+        preserveDrawingBuffer: true,
+      }}
       camera={{ position: [0, 0, 2], far: 50 }}
       style={{
         background: "#000",
       }}
-      onCreated={bind}
       concurrent
     >
+      <color attach="background" args={["#000"]} />
       <Suspense fallback={null}>
         <Scene />
       </Suspense>
