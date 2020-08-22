@@ -35,6 +35,8 @@ function Loading() {
 }
 
 const Menu = withRouter(function Menu(props) {
+  console.log();
+
   return (
     <select
       css={`
@@ -43,7 +45,8 @@ const Menu = withRouter(function Menu(props) {
         left: 1rem;
         z-index: 10;
       `}
-      onChange={(e) => window.location.href = e.target.value}
+      value={`${props.location.pathname.replace("/", "")}`}
+      onChange={(e) => (window.location.href = e.target.value)}
     >
       {Object.keys(examples).map((key) => (
         <option key={key} value={key}>
@@ -65,7 +68,6 @@ render(
         `}
       >
         <Menu />
-
         <Switch>
           {Object.keys(examples).map((key) => {
             const Example = examples[key]._;
