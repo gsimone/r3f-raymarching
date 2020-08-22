@@ -10,7 +10,6 @@ uniform vec2 u_mouse;
 uniform float u_time;
 
 uniform float tint;
-uniform int octaves;
 uniform float lacunarity;
 uniform float gain;
 
@@ -42,6 +41,8 @@ float noise (in vec2 st) {
 #pragma glslify: snoise2 = require(glsl-noise/simplex/2d) 
 #pragma glslify: rotate = require(../../common/rotate)
 
+#define OCTAVES 6
+
 // Ridged multifractal
 // See "Texturing & Modeling, A Procedural Approach", Chapter 12
 float ridge(float h, float offset) {
@@ -57,7 +58,7 @@ float ridgedMF(vec2 p) {
     float sum = 0.0;
     float freq = 1.0, amp = 0.5;
     float prev = 1.0;
-    for(int i=0; i < octaves; i++) {
+    for(int i=0; i < OCTAVES; i++) {
         float n = ridge(snoise2(p*freq), offset);
         sum += n*amp;
         sum += n*amp*prev;  // scale by previous octave
@@ -73,9 +74,9 @@ float fbm (in vec2 st) {
     float value = 0.0;
     float amplitude = .5;
     float frequency = 0.;
-    // Loop of octaves
+    // Loop of OCTAVES
     float prev = 1.0;
-    for (int i = 0; i < octaves; i++) {
+    for (int i = 0; i < OCTAVES; i++) {
         value += amplitude * abs(snoise2(st));
         st *= lacunarity;
         amplitude *= gain;
