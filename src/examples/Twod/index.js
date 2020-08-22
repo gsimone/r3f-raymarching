@@ -13,7 +13,7 @@ import { makeButton, useTweaks } from "use-tweaks";
 
 const material = shaderMaterial(
   {
-    radius: 10,
+    radius: 1,
     density: 2,
     tiles: 1,
     u_resolution: [0, 0],
