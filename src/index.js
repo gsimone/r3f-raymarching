@@ -43,7 +43,7 @@ const Menu = withRouter(function Menu(props) {
         left: 1rem;
         z-index: 10;
       `}
-      onChange={(e) => props.history.push(e.target.value)}
+      onChange={(e) => window.location.href = e.target.value}
     >
       {Object.keys(examples).map((key) => (
         <option key={key} value={key}>
