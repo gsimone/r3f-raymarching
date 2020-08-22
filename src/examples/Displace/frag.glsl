@@ -9,6 +9,7 @@ uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
 
+uniform float speed;
 uniform float tint;
 uniform float lacunarity;
 uniform float gain;
@@ -71,13 +72,15 @@ void main() {
 
     vec3 color = vec3(0.0);
 
+    float time = u_time * speed;
+
     vec2 q = vec2(0.);
-    q.x = fbm( st + 0.1 * u_time);
+    q.x = fbm( st + 0.1 * time);
     q.y = fbm( st + vec2(1.0));
 
     vec2 r = vec2(0.);
-    r.x = fbm( st + 1.0 * q + vec2(1.7,9.2)+ 0.15 * u_time );
-    r.y = fbm( st + 1.0 * q + vec2(8.3,2.8)+ 0.126 * u_time);
+    r.x = fbm( st + 1.0 * q + vec2(1.7,9.2)+ 0.15 * time );
+    r.y = fbm( st + 1.0 * q + vec2(8.3,2.8)+ 0.126 * time);
 
     float f = fbm(st+r);
 
