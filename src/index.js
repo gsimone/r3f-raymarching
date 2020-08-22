@@ -35,8 +35,6 @@ function Loading() {
 }
 
 const Menu = withRouter(function Menu(props) {
-  console.log();
-
   return (
     <select
       css={`
@@ -67,7 +65,7 @@ render(
           align-items: stretch;
         `}
       >
-        <Menu />
+        {process.env.NODE_ENV === "production" ? <Menu /> : null}
         <Switch>
           {Object.keys(examples).map((key) => {
             const Example = examples[key]._;

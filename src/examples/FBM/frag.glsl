@@ -12,31 +12,10 @@ uniform float u_time;
 uniform float tint;
 uniform float lacunarity;
 uniform float gain;
-
-float random (in vec2 st) {
-    return fract(sin(dot(st.xy,
-                         vec2(12.9898,78.233)))*
-        43758.5453123);
-}
-
-// Based on Morgan McGuire @morgan3d
-// https://www.shadertoy.com/view/4dS3Wd
-float noise (in vec2 st) {
-    vec2 i = floor(st);
-    vec2 f = fract(st);
-
-    // Four corners in 2D of a tile
-    float a = random(i);
-    float b = random(i + vec2(1.0, 0.0));
-    float c = random(i + vec2(0.0, 1.0));
-    float d = random(i + vec2(1.0, 1.0));
-
-    vec2 u = f * f * (3.0 - 2.0 * f);
-
-    return mix(a, b, u.x) +
-            (c - a)* u.y * (1.0 - u.x) +
-            (d - b) * u.x * u.y;
-}
+uniform vec3 primary;
+uniform vec3 secondary;
+uniform vec3 shades;
+uniform vec3 edges;
 
 #pragma glslify: snoise2 = require(glsl-noise/simplex/2d) 
 #pragma glslify: rotate = require(../../common/rotate)
@@ -100,16 +79,16 @@ void main() {
 
     float f = fbm(st+r);
 
-    color = mix(vec3(0.101961,0.619608,0.666667),
-                vec3(0.666667,0.666667,0.498039),
+    color = mix(vec3(edges),
+                vec3(secondary),
                 clamp((f*f)*4.0,0.0,1.0));
 
     color = mix(color,
-                vec3(0,0,0.164706),
+                shades,
                 clamp(length(q),0.0,1.0));
 
     color = mix(color,
-                vec3(0.666667,1,1),
+                primary,
                 clamp(length(r.x),0.0,1.0));
 
     gl_FragColor = vec4( color, 1.0 );

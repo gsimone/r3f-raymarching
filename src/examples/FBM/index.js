@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import React from "react";
 import { shaderMaterial } from "drei";
 import { Canvas, extend } from "react-three-fiber";
@@ -42,17 +43,33 @@ function makeAll(data) {
 const tweaks = makeAll({
   lacunarity: { value: 1.95, min: 0, max: 5 },
   gain: { value: 0.52, min: 0, max: 1 },
+  primary: { value: "#ff44a6" },
+  secondary: { value: "#58e8b4" },
+  shades: { value: "#49ffb5" },
+  edges: { value: "#5545ff" },
 });
 
 function Scene() {
-  const props = useTweaks("Tweaks", tweaks);
+  const { primary, shades, edges, secondary, ...props } = useTweaks(
+    "Tweaks",
+    tweaks
+  );
 
-  return <ShaderPlane {...props} duration={6} />;
+  return (
+    <ShaderPlane
+      {...props}
+      secondary={new THREE.Color(secondary)}
+      shades={new THREE.Color(shades)}
+      primary={new THREE.Color(primary)}
+      edges={new THREE.Color(edges)}
+      duration={6}
+    />
+  );
 }
 
 export default function CubeExample() {
   return (
-    <Canvas colorManagement pixelRatio={0.5}>
+    <Canvas colorManagement>
       <color attach="background" args={["#000"]} />
       <Scene />
     </Canvas>
