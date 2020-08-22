@@ -1,16 +1,13 @@
 import * as THREE from "three";
 import React, { Suspense } from "react";
-import { OrbitControls, PerspectiveCamera, Plane } from "drei";
-import { Canvas, createPortal } from "react-three-fiber";
+import { Canvas } from "react-three-fiber";
 
 import "styled-components/macro";
 
 import ShaderPlane from "../../common/ShaderPlane";
 import makeAll from "../../common/makeAll";
-import useRenderTargetTexture from "../../common/useRenderTargetTexture";
 
-import useCapture from "use-capture";
-import { makeButton, useTweaks } from "use-tweaks";
+import { useTweaks } from "use-tweaks";
 
 import frag from "./frag.glsl";
 
@@ -38,9 +35,6 @@ function Scene() {
 }
 
 export default function CubeExample() {
-  const [bind, start] = useCapture({ duration: Math.PI * 2, fps: 60 });
-  useTweaks("Capture", makeButton("🔴 Start recording", start));
-
   return (
     <Canvas
       shadowMap
@@ -49,7 +43,6 @@ export default function CubeExample() {
         preserveDrawingBuffer: true,
       }}
       camera={{ position: [0, 0, 1] }}
-      onCreated={bind}
     >
       <Suspense fallback={null}>
         <Scene />
