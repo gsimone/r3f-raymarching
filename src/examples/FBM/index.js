@@ -42,18 +42,17 @@ function makeAll(data) {
 const tweaks = makeAll({
   lacunarity: { value: 1.95, min: 0, max: 5 },
   gain: { value: 0.52, min: 0, max: 1 },
-  tint: { value: 0, min: 0, max: Math.PI * 2 },
 });
 
 function Scene() {
   const props = useTweaks("Tweaks", tweaks);
 
-  return <ShaderPlane {...props} duration={Math.PI * 2} />;
+  return <ShaderPlane {...props} duration={6} />;
 }
 
 export default function CubeExample() {
   return (
-    <Canvas colorManagement>
+    <Canvas colorManagement pixelRatio={0.5}>
       <color attach="background" args={["#000"]} />
       <Scene />
     </Canvas>

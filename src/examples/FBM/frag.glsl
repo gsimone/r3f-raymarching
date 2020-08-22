@@ -112,8 +112,5 @@ void main() {
                 vec3(0.666667,1,1),
                 clamp(length(r.x),0.0,1.0));
 
-    gl_FragColor = vec4(
-      rotate(color, vec3(1.0) , tint), 
-      1.0
-    );
+    gl_FragColor = vec4( color, 1.0 );
 } 
