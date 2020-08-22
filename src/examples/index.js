@@ -8,6 +8,7 @@ const examples = {
   ghost: { title: "5. Ghost", _: lazy(() => import("./Ghost")) },
   twod: { title: "6. Two Dimensions", _: lazy(() => import("./Twod")) },
   fbm: { title: "7. FBM", _: lazy(() => import("./FBM")) },
+  displace: { title: "8. Displace", _: lazy(() => import("./Displace")) },
 };
 
 export default examples;
