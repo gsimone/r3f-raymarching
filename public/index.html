@@ -39,7 +39,48 @@
       .tp-dfwv {
         width: 300px !important;
       }
+      
     </style>
+
+    <!-- Example theme: Iceberg -->
+    <!-- Copy and paste the element into your head element -->
+    <style>
+      :root {
+        /* Base colors */
+        --tp-base-background-color: hsl(230deg, 20%, 11%);
+        --tp-base-shadow-color: hsla(0, 0%, 0%, 0.2);
+        
+        /* Button-like control colors */
+        --tp-button-background-color: hsl(230deg, 10%, 80%);
+        --tp-button-background-color-active: hsl(230deg, 10%, 95%);
+        --tp-button-background-color-focus: hsl(230deg, 10%, 90%);
+        --tp-button-background-color-hover: hsl(230deg, 10%, 85%);
+        --tp-button-foreground-color: var(--tp-base-background-color);
+        
+        /* Folder colors */
+        --tp-folder-background-color: hsl(230deg, 25%, 16%);
+        --tp-folder-background-color-active: hsl(230deg, 25%, 31%);
+        --tp-folder-background-color-focus: hsl(230deg, 25%, 26%);
+        --tp-folder-background-color-hover: hsl(230deg, 25%, 21%);
+        --tp-folder-foreground-color: var(--tp-input-foreground-color);
+        
+        /* Input control colors */
+        --tp-input-background-color: hsl(230deg, 20%, 8%);
+        --tp-input-background-color-active: hsl(230deg, 28%, 26%);
+        --tp-input-background-color-focus: hsl(230deg, 28%, 21%);
+        --tp-input-background-color-hover: hsl(230deg, 20%, 16%);
+        --tp-input-foreground-color: hsl(230deg, 10%, 80%);
+        --tp-input-guide-color: hsla(230deg, 10%, 80%, 5%);
+        
+        /* Monitor control colors */
+        --tp-monitor-background-color: hsl(230deg, 20%, 8%);
+        --tp-monitor-foreground-color: hsl(230deg, 12%, 48%);
+        
+        /* Misc */
+        --tp-label-foreground-color: hsl(230deg, 12%, 48%);
+        --tp-separator-color: hsl(230deg, 20%, 8%);
+      }
+      </style>
 
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
