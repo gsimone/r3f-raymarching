@@ -16,12 +16,12 @@ const ShaderPlane = React.forwardRef(function ShaderPlane(
   const { viewport } = useThree();
   useEffect(() => {
     const { width, height, factor } = viewport();
-
     u_resolution.current = [width * factor, height * factor];
   });
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock, mouse }) => {
     mat.current.uniforms.u_time.value = clock.getElapsedTime() / duration;
+    mat.current.uniforms.u_mouse.value = [mouse.x, mouse.y];
   });
 
   return (

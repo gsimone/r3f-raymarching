@@ -16,9 +16,10 @@ const material = shaderMaterial(
     radius: 1,
     density: 2,
     tiles: 1,
+    speed: 1,
     u_resolution: [0, 0],
     u_time: 0,
-    speed: 1,
+    u_mouse: [0, 0],
   },
   vert,
   frag
@@ -28,7 +29,7 @@ function makeTweaksFromMaterial(material) {
   const mat = new material();
   const uniforms = mat.uniforms;
 
-  const { u_time, u_resolution, ...interesting } = uniforms;
+  const { u_mouse, u_time, u_resolution, ...interesting } = uniforms;
 
   return Object.entries(interesting).reduce((acc, [key, value]) => {
     return {

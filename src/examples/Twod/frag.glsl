@@ -1,15 +1,16 @@
 #ifdef GL_ES
-precision mediump float;
+  precision mediump float;
 #endif
 
-varying vec2 vUv;
 uniform vec2 u_resolution;
+uniform float u_time;
+uniform vec2 u_mouse;
+
 uniform float lightness;
 uniform float unionFactor;
 uniform float gradientScale;
 uniform float tiles;
 uniform float density;
-uniform float u_time;
 uniform float radius;
 uniform float speed;
 
@@ -99,10 +100,10 @@ vec3 getCol(vec2 uv) {
 
     float time = u_time * speed;
 
-   float angle = atan(uv.x - 1., uv.y + 1.);
+    float angle = atan(uv.x - 1., uv.y + 1.);
     float dist = sdCircle(uv - 0.5, 1.);
 
-    float d = dist
+    float d = dist  * ( 1. - u_mouse.y)
       + wave(angle * .25 + time) * .25 * sin(time * .5)
       + wave(angle * .5 + time) * .5 * sin(time * .5);
 
@@ -123,7 +124,7 @@ void main()	{
     vec2 uv = gl_FragCoord.xy/u_resolution.xy;
 
     vec2 grid = tile(uv, tiles);
-    vec2 grid2 = tile(uv, tiles * 2.);
+    vec2 grid2 = tile(uv, tiles);
     vec2 grid3 = tile(uv, tiles * 12.);
 
     vec3 col = getCol(grid);
@@ -132,5 +133,5 @@ void main()	{
 
     vec3 mixed = max(col, col2);
 
-    gl_FragColor = vec4(mix(mixed, col3, .4), 1.);
+    gl_FragColor = vec4(mix(mixed, col3, abs(u_mouse.x)), 1.);
 }
