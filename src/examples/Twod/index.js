@@ -51,31 +51,20 @@ export default function CubeExample() {
   useTweaks("Capture", makeButton("🔴 Start recording", start));
 
   return (
-    <div
-      css={`
-        width: 600px;
-        height: 600px;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-      `}
+    <Canvas
+      shadowMap
+      colorManagement
+      camera={{ position: [0, 0, 2], far: 50 }}
+      style={{
+        background: "#000",
+      }}
+      onCreated={bind}
+      concurrent
     >
-      <Canvas
-        shadowMap
-        colorManagement
-        camera={{ position: [0, 0, 2], far: 50 }}
-        style={{
-          background: "#000",
-        }}
-        onCreated={bind}
-        concurrent
-      >
-        <Suspense fallback={null}>
-          <Scene />
-        </Suspense>
-        <Stats />
-      </Canvas>
-    </div>
+      <Suspense fallback={null}>
+        <Scene />
+      </Suspense>
+      <Stats />
+    </Canvas>
   );
 }
