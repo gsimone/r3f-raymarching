@@ -1,104 +1,74 @@
-import * as THREE from "three";
-import React, { useRef, useMemo, Suspense } from "react";
-import {
-  PerspectiveCamera,
-  Plane,
-  shaderMaterial,
-  Stats,
-  Text,
-  useAspect,
-} from "drei";
-import { Canvas, useFrame, extend, createPortal } from "react-three-fiber";
+import React, { useRef, Suspense } from "react";
+import { shaderMaterial, Stats, } from "drei";
+import { Canvas, useFrame, extend } from "react-three-fiber";
+
+import ShaderPlane from '../../common/ShaderPlane'
+
+import 'styled-components/macro'
 
 import frag from "./frag.glsl";
 import vert from "../../common/defaultVertexShader.glsl";
+import useCapture from "use-capture";
+import { makeButton, useTweaks } from "use-tweaks";
 
-extend({
-  SphereExampleMaterial: shaderMaterial(
-    { resolution: [0, 0], time: 0, text: null },
-    vert,
-    frag
-  ),
-});
+const material = shaderMaterial(
+  { 
+    gradientScale: 1,
+    unionFactor: .25,
+    lightness: 5, 
+    resolution: [0, 0], 
+    time: 0
+   },
+  vert,
+  frag
+)
 
-function useRenderTargetTexture() {
-  const camera = useRef();
+function makeTweaksFromMaterial(material) {
+  const mat = new material()
+  const uniforms = mat.uniforms
 
-  const [scene, target] = useMemo(() => {
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color("#000");
-    const target = new THREE.WebGLMultisampleRenderTarget(1024, 1024, {
-      format: THREE.RGBFormat,
-      stencilBuffer: false,
-    });
-    return [scene, target];
-  }, []);
+  const { time,resolution, ...interesting } = uniforms
 
-  target.samples = 2;
-
-  useFrame((state) => {
-    state.gl.setRenderTarget(target);
-
-    state.gl.render(scene, camera.current);
-    state.gl.setRenderTarget(null);
-  });
-
-  return { camera, scene, texture: target.texture };
+  return interesting
 }
 
+extend({ SphereExampleMaterial: material });
+
 function Scene() {
-  const mat = useRef();
+  const tweaks = useTweaks("Tweaks", makeTweaksFromMaterial(material))
 
-  useFrame(({ clock }) => {
-    mat.current.uniforms.time.value = clock.getElapsedTime() / 6;
-  });
-
-  const scale = useAspect("cover", window.innerWidth, window.innerHeight, 1);
-
-  const { texture, scene, camera } = useRenderTargetTexture();
-
-  return (
-    <>
-      {createPortal(
-        <>
-          <Text
-            maxWidth={10}
-            font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
-            fontSize={1}
-            color="white"
-          >
-            React three Fiber
-          </Text>
-          <PerspectiveCamera ref={camera} position={[0, 0, 4]} />
-        </>,
-        scene
-      )}
-      <Plane scale={[...scale, 1]}>
-        <sphereExampleMaterial
-          ref={mat}
-          text={texture}
-          resolution={[window.innerWidth, window.innerHeight]}
-        />
-      </Plane>
-    </>
-  );
+  return (<ShaderPlane {...tweaks} duration={Math.PI * 2} />)
 }
 
 export default function CubeExample() {
+
+  const [bind, start] = useCapture({ duration: Math.PI * 2, fps: 60 })
+  useTweaks("Capture", makeButton("🔴 Start recording", start))
+  
   return (
-    <Canvas
-      shadowMap
-      colorManagement
-      camera={{ position: [0, 0, 2], far: 50 }}
-      style={{
-        background: "#000",
-      }}
-      concurrent
-    >
-      <Suspense fallback={null}>
-        <Scene />
-      </Suspense>
-      <Stats />
-    </Canvas>
+    <div css={`
+      width: 600px;
+      height: 600px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+    `}>
+      <Canvas
+        shadowMap
+        colorManagement
+        camera={{ position: [0, 0, 2], far: 50 }}
+        style={{
+          background: "#000",
+        }}
+        onCreated={bind}
+        concurrent
+      >
+        <Suspense fallback={null}>
+          <Scene />
+        </Suspense>
+        <Stats />
+      </Canvas>
+    </div>
   );
 }

@@ -6,6 +6,9 @@
 
 varying vec2 vUv;
 uniform vec2 resolution;
+uniform float lightness;
+uniform float unionFactor;
+uniform float gradientScale;
 uniform float time;
 
 #pragma glslify: rotate = require(../../common/rotate)
@@ -36,13 +39,13 @@ float scene(vec3 p) {
   float smaller = opSmoothUnion(
     sdSphere(p3, .25),
     sdSphere(p2, .25),
-    .25
+    unionFactor
   );
 
   float centerSphere = opSmoothUnion(
     sdSphere(p1, .25),
     smaller,
-    .25
+    unionFactor
   );
 
   return centerSphere;
@@ -54,7 +57,7 @@ vec3 pal( in float t, in vec3 a, in vec3 b, in vec3 c, in vec3 d ) {
 
 vec3 getColorAmount(vec3 p) {
   float amount = clamp((1.5 - length(p))/2., 0., 1.);
-  vec3 color = pal( amount, vec3(0.5,0.5,0.5),vec3(0.5,0.5,0.5),vec3(1.0,1.0,1.0),vec3(0.0,0.10,0.20) );
+  vec3 color = pal( amount * gradientScale, vec3(0.5,0.5,0.5),vec3(0.5,0.5,0.5),vec3(1.0,1.0,1.0),vec3(0.0,0.10,0.20) );
 
   return color * amount;
 }
@@ -81,7 +84,7 @@ void main()	{
         break;
       }
 
-      color += 0.05 * getColorAmount(rayPos);
+      color += (lightness / 100.)  * getColorAmount(rayPos);
     }
     gl_FragColor = vec4(color, 1.);
 }
