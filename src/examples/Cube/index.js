@@ -7,7 +7,7 @@ import vert from "../../common/defaultVertexShader.glsl";
 
 extend({
   SphereExampleMaterial: shaderMaterial(
-    { resolution: [0, 0], time: 0, text: null },
+    { u_resolution: [0, 0], u_time: 0, text: null },
     vert,
     frag
   ),
@@ -17,7 +17,7 @@ function Scene() {
   const mat = useRef();
 
   useFrame(({ clock }) => {
-    mat.current.uniforms.time.value = clock.getElapsedTime();
+    mat.current.uniforms.u_time.value = clock.getElapsedTime();
   });
 
   const scale = useAspect("cover", window.innerWidth, window.innerHeight, 1);
@@ -26,7 +26,7 @@ function Scene() {
     <Plane scale={[...scale, 1]}>
       <sphereExampleMaterial
         ref={mat}
-        resolution={[window.innerWidth, window.innerHeight]}
+        u_resolution={[window.innerWidth, window.innerHeight]}
       />
     </Plane>
   );

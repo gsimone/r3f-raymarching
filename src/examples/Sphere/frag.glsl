@@ -1,4 +1,4 @@
-uniform float time;
+uniform float u_time;
 varying vec2 vUv;
 varying vec3 vNormal;
 varying vec3 vViewPosition;
@@ -30,8 +30,8 @@ float opIntersection( float d1, float d2 ) { return max(d1,d2); }
 
 float scene(vec3 p) {
 
-  vec3 p1 = rotate(p, vec3(1.,0.,0.), time * 6.283185);
-  vec3 p2 = rotate(p, vec3(1.), -time * 6.283185);
+  vec3 p1 = rotate(p, vec3(1.,0.,0.), u_time * 6.283185);
+  vec3 p2 = rotate(p, vec3(1.), -u_time * 6.283185);
   
   float scale  = 12.;
 

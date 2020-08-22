@@ -18,7 +18,7 @@ import "styled-components/macro";
 extend({
   MyMouseShaderMaterial: shaderMaterial(
     {
-      time: 0,
+      u_time: 0,
       mouse: [0, 0],
       pos: [0, 0, 0],
     },
@@ -44,7 +44,7 @@ function Scene() {
   });
 
   useFrame(({ mouse }) => {
-    mat.current.uniforms.time.value += 1 / 20;
+    mat.current.uniforms.u_time.value += 1 / 20;
     mat.current.uniforms.mouse.value = [mouse.x, mouse.y];
 
     mat.current.uniforms.pos.value = pos.current;

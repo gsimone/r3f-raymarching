@@ -4,8 +4,8 @@ precision mediump float;
 
 varying vec2 vUv;
 uniform sampler2D text;
-uniform vec2 resolution;
-uniform float time;
+uniform vec2 u_resolution;
+uniform float u_time;
 
 #pragma glslify: rotate = require(../../common/rotate)
 
@@ -23,8 +23,8 @@ float sdOctahedron( vec3 p, float s)
 
 float scene(vec3 p) {
 
-  vec3 p1 = rotate(p, vec3(0.,1.,0.), time * 6.283185);
-  vec3 p2 = rotate(p, vec3(1.), -time  * 6.283185);
+  vec3 p1 = rotate(p, vec3(0.,1.,0.), u_time * 6.283185);
+  vec3 p2 = rotate(p, vec3(1.), -u_time  * 6.283185);
   
   float scale  = 6.;
 
@@ -44,7 +44,7 @@ vec3 getColorAmount(vec3 p) {
 }
 
 void main()	{
-    float x = resolution.x / resolution.y;
+    float x = u_resolution.x / u_resolution.y;
     
     vec2 uv = vUv * vec2(x, 1.) + vec2((1. - x)/2., 0.);
   

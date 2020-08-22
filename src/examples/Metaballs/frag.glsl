@@ -5,11 +5,11 @@
 // https://dribbble.com/shots/1696376-Circle-wave
 
 varying vec2 vUv;
-uniform vec2 resolution;
+uniform vec2 u_resolution;
 uniform float lightness;
 uniform float unionFactor;
 uniform float gradientScale;
-uniform float time;
+uniform float u_time;
 
 #pragma glslify: rotate = require(../../common/rotate)
 
@@ -30,10 +30,10 @@ float qinticInOut(float t) {
 
 float scene(vec3 p) {
 
-  vec3 p1 = rotate(p, vec3(0.,1.,0.), 4. * 6.2831853 * sin(time));
+  vec3 p1 = rotate(p, vec3(0.,1.,0.), 4. * 6.2831853 * sin(u_time));
   
-  vec3 p2 = p1 + vec3(.5, .5, 0.) * qinticInOut(abs(sin(time * 3.)));
-  vec3 p3 = p1 + vec3(-.5, -.5, 0.) * qinticInOut(abs(sin(time * 3.)));
+  vec3 p2 = p1 + vec3(.5, .5, 0.) * qinticInOut(abs(sin(u_time * 3.)));
+  vec3 p3 = p1 + vec3(-.5, -.5, 0.) * qinticInOut(abs(sin(u_time * 3.)));
 
   // union between the outer spheres
   float smaller = opSmoothUnion(
@@ -63,8 +63,7 @@ vec3 getColorAmount(vec3 p) {
 }
 
 void main()	{
-    float x = resolution.x / resolution.y;
-    vec2 uv = vUv * vec2(x, 1.) + vec2((1. - x)/2., 0.);
+    vec2 uv = gl_FragCoord.xy/u_resolution.xy;
   
     vec3 camPos = vec3(0, 0, 2.);
     vec2 p = uv - vec2(0.5);

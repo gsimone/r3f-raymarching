@@ -5,8 +5,8 @@
 // https://dribbble.com/shots/1696376-Circle-wave
 
 varying vec2 vUv;
-uniform vec2 resolution;
-uniform float time;
+uniform vec2 u_resolution;
+uniform float u_time;
 
 #pragma glslify: rotate = require(../../common/rotate)
 
@@ -81,17 +81,17 @@ float sdRoundCone( vec3 p, float r1, float r2, float h )
 float scene(vec3 p) {
 
   p = rotate(p, vec3(0., 1., 0.), .0);
-  vec3 p1 = p + vec3(0., -.2, 0.) + (vec3(0.,.04,0.) * sin(time));
+  vec3 p1 = p + vec3(0., -.2, 0.) + (vec3(0.,.04,0.) * sin(u_time));
   
   vec3 tailFirstPiecesP = rotate(
     p1 + vec3(.0, .35, .0), 
     vec3(0., 0., 1.), 
-    -sin(time / 3.) + 3.14 * 0.5
+    -sin(u_time / 3.) + 3.14 * 0.5
   );
   vec3 tailSecondPieceP = rotate(
     tailFirstPiecesP + vec3(.15, .01, .0), 
     vec3(0., 0., 1.), 
-    -sin(time / 2.) / 5.
+    -sin(u_time / 2.) / 5.
   );
   vec3 tailThirdPieceP = tailSecondPieceP + vec3(.1, 0.05, .0);
 
@@ -174,7 +174,7 @@ vec3 getColorAmount(vec3 p) {
 }
 
 void main()	{
-    float x = resolution.x / resolution.y;
+    float x = u_resolution.x / u_resolution.y;
     
     vec2 uv = vUv * vec2(x, 1.) + vec2((1. - x)/2., 0.);
   

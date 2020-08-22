@@ -7,7 +7,7 @@ const examples = {
   octa: { title: "Octa", _: lazy(() => import("./Octa")) },
   metaballs: { title: "Meta", _: lazy(() => import("./Metaballs")) },
   ghost: { title: "Ghost", _: lazy(() => import("./Ghost")) },
-  ctrl: { title: "Ctrl", _: lazy(() => import("./ControlExp")) },
+  twod: { title: "Two Dimensions", _: lazy(() => import("./Twod")) },
 };
 
 export default examples;

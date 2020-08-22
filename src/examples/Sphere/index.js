@@ -5,12 +5,12 @@ import { Canvas, useFrame, extend } from "react-three-fiber";
 import frag from "./frag.glsl";
 import vert from "../../common/defaultVertexShader.glsl";
 
-extend({ SphereExampleMaterial: shaderMaterial({ time: 0 }, vert, frag) });
+extend({ SphereExampleMaterial: shaderMaterial({ u_time: 0 }, vert, frag) });
 
 function Scene() {
   const mat = useRef();
   useFrame(({ clock }) => {
-    mat.current.uniforms.time.value = clock.getElapsedTime() % 6;
+    mat.current.uniforms.u_time.value = clock.getElapsedTime() % 6;
   });
 
   const scale = useAspect("cover", window.innerWidth, window.innerHeight, 1);

@@ -1,6 +1,6 @@
 varying vec2 vUv;
-uniform vec2 resolution;
-uniform float time;
+uniform vec2 u_resolution;
+uniform float u_time;
 
 #pragma glslify: rotate = require(../../common/rotate)
 
@@ -26,9 +26,9 @@ float opSmoothUnion(float d1, float d2, float k) {
 }
 
 float scene(vec3 p) {
-    vec3 p1 = rotate(p, vec3(1., 1., 1.), time);
+    vec3 p1 = rotate(p, vec3(1., 1., 1.), u_time);
 
-    return opSmoothUnion(sdSphere(p1, .25 + .5 * sin(time)), sdBox(p1, vec3(.4)), .4);
+    return opSmoothUnion(sdSphere(p1, .25 + .5 * sin(u_time)), sdBox(p1, vec3(.4)), .4);
 }
 
 vec3 getColorAmount(vec3 p) {
@@ -38,7 +38,7 @@ vec3 getColorAmount(vec3 p) {
 }
 
 void main() {
-    float x = resolution.x / resolution.y;
+    float x = u_resolution.x / u_resolution.y;
 
     vec2 uv = vUv * vec2(x, 1.) + vec2((1. - x) / 2., 0.);
 

@@ -1,5 +1,5 @@
 uniform vec2 mouse;
-uniform float time;
+uniform float u_time;
 uniform vec3 pos;
 
 varying vec2 vUv;
@@ -42,9 +42,9 @@ float opSmoothUnion( float d1, float d2, float k ) {
 
 float scene(vec3 p) {
 
-  vec3 p1 = rotate(p, vec3(1.,1.,1.), time);
+  vec3 p1 = rotate(p, vec3(1.,1.,1.), u_time);
 
-  float scale  = 10. + 5. * sin(time);
+  float scale  = 10. + 5. * sin(u_time);
 
   return SineCrazy(p * 6.);
 }

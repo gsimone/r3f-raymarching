@@ -13,11 +13,12 @@ import { makeButton, useTweaks } from "use-tweaks";
 
 const material = shaderMaterial(
   {
-    gradientScale: 1,
-    unionFactor: 0.25,
-    lightness: 5,
+    radius: 10,
+    density: 2,
+    tiles: 1,
     u_resolution: [0, 0],
     u_time: 0,
+    speed: 1,
   },
   vert,
   frag
@@ -27,9 +28,14 @@ function makeTweaksFromMaterial(material) {
   const mat = new material();
   const uniforms = mat.uniforms;
 
-  const { time, u_resolution, ...interesting } = uniforms;
+  const { u_time, u_resolution, ...interesting } = uniforms;
 
-  return interesting;
+  return Object.entries(interesting).reduce((acc, [key, value]) => {
+    return {
+      [key]: { ...value, min: 0, max: value.value * 5 + 10 },
+      ...acc,
+    };
+  }, {});
 }
 
 extend({ SphereExampleMaterial: material });
