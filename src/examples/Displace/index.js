@@ -1,17 +1,18 @@
 import * as THREE from "three";
-import React, { Suspense, useMemo, useRef } from "react";
-import { Octahedron, PerspectiveCamera, shaderMaterial } from "drei";
-import { Canvas, extend, createPortal, useFrame } from "react-three-fiber";
+import React, { Suspense } from "react";
+import { Octahedron, PerspectiveCamera } from "drei";
+import { Canvas, createPortal } from "react-three-fiber";
 
 import "styled-components/macro";
-
-import ShaderPlane from "../../common/ShaderPlane";
 
 import useCapture from "use-capture";
 import { makeButton, useTweaks } from "use-tweaks";
 
 import frag from "./frag.glsl";
-import vert from "../../common/defaultVertexShader.glsl";
+import makeAll from "../../common/makeAll";
+import ShaderPlane from "../../common/ShaderPlane";
+import useRenderTargetTexture from "../../common/useRenderTargetTexture";
+
 import {
   Bloom,
   ChromaticAberration,
@@ -20,70 +21,19 @@ import {
   Vignette,
 } from "react-postprocessing";
 
-function getValues(inputs) {
-  return Object.entries(inputs).reduce((acc, [key, input]) => {
-    let _val = input;
-
-    if (input && typeof input === "object") {
-      _val = input.value;
-    }
-
-    return { ...acc, [key]: _val };
-  }, {});
-}
-
-function makeAll(data) {
-  const material = shaderMaterial(
-    {
-      ...getValues(data),
-      u_resolution: [0, 0],
-      u_time: 0,
-      u_mouse: [0, 0],
-    },
-    vert,
-    frag
-  );
-
-  extend({ SphereExampleMaterial: material });
-
-  return data;
-}
-
-const tweaks = makeAll({
-  speed: { value: 0.1, min: 0, max: 5 },
-  lacunarity: { value: 1.95, min: 0, max: 5 },
-  gain: { value: 0.52, min: 0, max: 1 },
-  background: { value: "#000" },
-  primary: { value: "#000" },
-  secondary: { value: "#1c225f" },
-  shades: { value: "#04ffbf" },
-  edges: { value: "#807fff" },
-});
-
-function useRenderTargetTexture() {
-  const camera = useRef();
-
-  const [scene, target] = useMemo(() => {
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color("#000");
-    const target = new THREE.WebGLMultisampleRenderTarget(1024, 1024, {
-      format: THREE.RGBFormat,
-      stencilBuffer: false,
-    });
-    return [scene, target];
-  }, []);
-
-  target.samples = 2;
-
-  useFrame((state) => {
-    state.gl.setRenderTarget(target);
-
-    state.gl.render(scene, camera.current);
-    state.gl.setRenderTarget(null);
-  });
-
-  return { camera, scene, texture: target.texture };
-}
+const tweaks = makeAll(
+  {
+    speed: { value: 0.1, min: 0, max: 5 },
+    lacunarity: { value: 1.95, min: 0, max: 5 },
+    gain: { value: 0.52, min: 0, max: 1 },
+    background: { value: "#000" },
+    primary: { value: "#000" },
+    secondary: { value: "#1c225f" },
+    shades: { value: "#04ffbf" },
+    edges: { value: "#807fff" },
+  },
+  frag
+);
 
 function Scene() {
   const { background, primary, shades, edges, secondary, ...props } = useTweaks(
@@ -91,7 +41,7 @@ function Scene() {
     tweaks
   );
 
-  const { texture, scene, camera } = useRenderTargetTexture();
+  const { texture, scene, camera } = useRenderTargetTexture(1024, 1024);
 
   return (
     <>
