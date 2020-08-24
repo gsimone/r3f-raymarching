@@ -11,6 +11,7 @@ const examples = {
   displace: { title: "8. Displace", _: lazy(() => import("./Displace")) },
   terrain: { title: "9. Terrain", _: lazy(() => import("./Terrain")) },
   beats: { title: "10. Beats", _: lazy(() => import("./Beats")) },
+  feedback: { title: "11. Feedback", _: lazy(() => import("./Feedback")) },
 };
 
 export default examples;
