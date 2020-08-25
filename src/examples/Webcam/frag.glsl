@@ -32,11 +32,18 @@ mat2 rotate2d(float _angle){
 
 #pragma glslify: snoise2 = require(glsl-noise/simplex/2d) 
 
-# define OCTAVES 3
+float ridge(float h, float offset) {
+    h = abs(h);     // create creases
+    h = offset - h; // invert so creases are at top
+    h = h * h;      // sharpen creases
+    return h;
+}
+
+# define OCTAVES 1
 float fbm (in vec2 st) {
     // Initial values
     float value = 0.0;
-    float amplitude = 1.;
+    float amplitude = 0.1;
     float frequency = 0.;
     // Loop of OCTAVES
     float prev = 1.0;
@@ -48,16 +55,28 @@ float fbm (in vec2 st) {
     return value;
 }
 
+float ridgedMF(vec2 p) {
+    float offset = 0.9;
+
+    float sum = 0.0;
+    float freq = 1.0, amp = 0.5;
+    float prev = 1.0;
+    for(int i=0; i < OCTAVES; i++) {
+        float n = ridge(snoise2(p*freq), offset);
+        sum += n*amp;
+        sum += n*amp*prev;  // scale by previous octave
+        prev = n;
+        freq *= lacunarity;
+        amp *= gain;
+    }
+    return sum;
+}
+
 void main()	{
   vec2 st = gl_FragCoord.xy/u_resolution.xy;
+  st.x *= u_resolution.x/u_resolution.y;
 
-  vec2 fbmDist = vec2(0.0);
-  fbmDist.x = fbm(st + u_time / 4. * 0.1);
-  fbmDist.y = fbm(st + u_time / 4.);
-
-  vec3 color = vec3(0.);
-  
-  vec3 video = texture2D(videoTexture, vec2(fbmDist)).rgb;
+  vec3 video = texture2D(videoTexture, vec2(ridgedMF(st))).rgb;
 
   gl_FragColor = vec4(video,1.0);
 }

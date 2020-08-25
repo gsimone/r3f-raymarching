@@ -1,6 +1,12 @@
 import * as THREE from "three";
 import React, { useRef, useMemo, useEffect } from "react";
-import { shaderMaterial, useAspect, Plane, Octahedron, PerspectiveCamera, Stats } from "drei";
+import {
+  shaderMaterial,
+  useAspect,
+  Plane,
+  Octahedron,
+  PerspectiveCamera,
+} from "drei";
 import {
   Canvas,
   extend,
@@ -15,7 +21,6 @@ import frag from "./frag.glsl";
 import vert from "../../common/defaultVertexShader.glsl";
 import useRenderTargetTexture from "../../common/useRenderTargetTexture";
 import { useTweaks } from "use-tweaks";
-import useCapture from "use-capture";
 
 function getValues(inputs) {
   return Object.entries(inputs).reduce((acc, [key, input]) => {
@@ -53,22 +58,20 @@ function swap(a, b) {
   b = t;
 }
 
-const tweaks = makeAll(
-  { 
+makeAll(
+  {
     lacunarity: 0.5,
     gain: 1,
-    size: 0.4, 
-    number: { value: 4, min: 1, max: 24, step: 1 } 
+    size: 0.4,
+    number: { value: 4, min: 1, max: 24, step: 1 },
   },
-  { 
-    bufferTexture: null, 
-    testTexture: null
-   }
+  {
+    bufferTexture: null,
+    testTexture: null,
+  }
 );
 
 function Scene() {
-
-  
   const bufferMaterial = useRef();
 
   const textureA = useRef(
@@ -109,27 +112,34 @@ function Scene() {
   });
 
   useFrame(({ clock }) => {
-    bufferMaterial.current.uniforms.u_time.value = clock.getElapsedTime() / Math.PI*2;
+    bufferMaterial.current.uniforms.u_time.value =
+      (clock.getElapsedTime() / Math.PI) * 2;
   });
 
   const scale = useAspect("cover", window.innerWidth, window.innerHeight);
 
-  const { texture, scene, camera } = useRenderTargetTexture(window.innerWidth, window.innerHeight, undefined);
+  const { texture, scene, camera } = useRenderTargetTexture(
+    window.innerWidth,
+    window.innerHeight,
+    undefined
+  );
 
-  const $animate = useRef()
+  const $animate = useRef();
 
   useFrame(({ clock, mouse }) => {
-    $animate.current.rotation.x = $animate.current.rotation.y = Math.sin(clock.getElapsedTime() * 2.)
-    $animate.current.rotation.z = Math.cos(clock.getElapsedTime() * 2.)
+    $animate.current.rotation.x = $animate.current.rotation.y = Math.sin(
+      clock.getElapsedTime() * 2
+    );
+    $animate.current.rotation.z = Math.cos(clock.getElapsedTime() * 2);
 
-    $animate.current.position.x = Math.sin(clock.getElapsedTime() * 2.)
+    $animate.current.position.x = Math.sin(clock.getElapsedTime() * 2);
 
     // $animate.current.position.x = mouse.x * viewport.width / 2
     // $animate.current.position.y = mouse.y * viewport.height / 2
-  })
+  });
 
-  const { color } = useTweaks({ color: "#660520" })
-  
+  const { color } = useTweaks({ color: "#660520" });
+
   return (
     <>
       <PerspectiveCamera ref={camera} position={[0, 0, 5]} />
@@ -159,15 +169,17 @@ function Scene() {
         </>,
         scene
       )}
-
     </>
   );
 }
 
 export default function CubeExample() {
-  
   return (
-    <Canvas gl={{preserveDrawingBuffer: true}} colorManagement camera={{ position: [0, 0, 5], far: 50 }}>
+    <Canvas
+      gl={{ preserveDrawingBuffer: true }}
+      colorManagement
+      camera={{ position: [0, 0, 5], far: 50 }}
+    >
       <color attach="background" args={["#000"]} />
       <Scene />
     </Canvas>

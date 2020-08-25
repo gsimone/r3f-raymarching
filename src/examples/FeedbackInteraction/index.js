@@ -52,45 +52,11 @@ function swap(a, b) {
 }
 
 const tweaks = makeAll(
-  {
-    lacunarity: { value: 0.5, min: 0, max: 1 },
-    gain: { value: 0.5, min: 0, max: 1 },
-    size: 0.4,
-    number: { value: 4, min: 1, max: 24, step: 1 },
-  },
-  { bufferTexture: null, videoTexture: null }
+  { size: 0.4, number: { value: 4, min: 1, max: 24, step: 1 } },
+  { bufferTexture: null }
 );
 
-function Camera({ videoElement }) {
-  useEffect(() => {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      var constraints = {
-        video: {
-          width: window.innerWidth,
-          height: window.innerHeight,
-          facingMode: "user",
-        },
-      };
-
-      navigator.mediaDevices
-        .getUserMedia(constraints)
-        .then(function (stream) {
-          // apply the stream to the video element used in the texture
-          videoElement.current.srcObject = stream;
-          videoElement.current.play();
-        })
-        .catch(function (error) {
-          console.error("Unable to access the camera/webcam.", error);
-        });
-    } else {
-      console.error("MediaDevices interface not available.");
-    }
-  }, [videoElement]);
-
-  return null;
-}
-
-function Scene({ videoElement }) {
+function Scene() {
   const twix = useTweaks("Tweaks", tweaks);
 
   const bufferMaterial = useRef();
@@ -138,8 +104,6 @@ function Scene({ videoElement }) {
 
   const scale = useAspect("cover", window.innerWidth, window.innerHeight);
 
-  const $videoTexture = useRef();
-
   return (
     <>
       {createPortal(
@@ -147,7 +111,6 @@ function Scene({ videoElement }) {
           <bufferMaterial
             ref={bufferMaterial}
             u_resolution={u_resolution.current}
-            videoTexture={$videoTexture.current}
             {...twix}
           />
         </Plane>,
@@ -156,30 +119,15 @@ function Scene({ videoElement }) {
       <Plane scale={scale}>
         <meshBasicMaterial ref={finalQuad} />
       </Plane>
-      <Plane scale={scale} visible={false}>
-        <meshBasicMaterial>
-          <videoTexture
-            args={[videoElement.current]}
-            ref={$videoTexture}
-            attach="map"
-          />
-        </meshBasicMaterial>
-      </Plane>
-      <Camera videoElement={videoElement} />
     </>
   );
 }
 
 export default function CubeExample() {
-  const $video = useRef();
-
   return (
-    <>
-      <Canvas colorManagement camera={{ position: [0, 0, 5], far: 50 }}>
-        <color attach="background" args={["#000"]} />
-        <Scene videoElement={$video} />
-      </Canvas>
-      <video ref={$video} style={{ display: "none" }} />
-    </>
+    <Canvas colorManagement camera={{ position: [0, 0, 5], far: 50 }}>
+      <color attach="background" args={["#000"]} />
+      <Scene />
+    </Canvas>
   );
 }
