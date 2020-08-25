@@ -6,19 +6,21 @@ export default function useRenderTargetTexture(
   width,
   height,
   settings = {
-    format: THREE.RGBFormat,
+    format: THREE.RGBAFormat,
     stencilBuffer: false,
-  }
+    depthBuffer: false,
+  },
+  last
 ) {
   const camera = useRef();
 
   const [scene, target] = useMemo(() => {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color("#000");
-    const target = new THREE.WebGLMultisampleRenderTarget(
+    const target = new THREE.WebGLRenderTarget(
       width,
       height,
-      settings
+      settings,
     );
     return [scene, target];
     // eslint-disable-next-line
