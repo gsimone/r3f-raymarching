@@ -21,12 +21,11 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.0-next.77",
     "react-three-fiber": "5.0.0-beta.11",
-    "react-three-gui": "^0.1.5",
     "react-use-gesture": "^8.0.0-alpha.2",
     "styled-components": "^5.1.1",
     "three": "^0.119.1",
     "use-capture": "^0.4.0",
-    "use-tweaks": "^0.0.1-alpha.10"
+    "use-tweaks": "^0.1.0"
   },
   "scripts": {
     "start": "craco start",

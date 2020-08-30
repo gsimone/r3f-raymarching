@@ -15,7 +15,7 @@ function getUniforms(inputs) {
   }, {});
 }
 
-export default function makeAll(data, frag) {
+export default function makeAll(data, frag, tweaks) {
   const material = shaderMaterial(
     {
       ...getUniforms(data),
@@ -29,5 +29,5 @@ export default function makeAll(data, frag) {
 
   extend({ SphereExampleMaterial: material });
 
-  return data;
+  return { ...data, ...tweaks };
 }
