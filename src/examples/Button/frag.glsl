@@ -16,13 +16,14 @@ uniform sampler2D bodyTexture;
 uniform vec3 bodyColor;
 uniform float colorMultiplier;
 
-
 uniform float noiseFresnelExponent;
 
 varying vec3 vPosition;
 varying vec2 vUv;
 varying vec3 vNormal;
 varying vec3 vColor;
+
+#pragma glslify: snoise2 = require(glsl-noise/simplex/2d) 
 
 void main() {
 
@@ -31,11 +32,13 @@ void main() {
 
   float bFresnel = fresnel;
 
+  float localnoise = snoise2((uv) + u_time);
+
   fresnel = 1. - fresnel;
   fresnel = pow(fresnel, fresnelExponent);
 
   float x = texture2D(noiseTexture, uv + vec2(u_time)).r;
-  x = pow(x, noiseFresnelExponent);
+  x = pow(x + localnoise, noiseFresnelExponent);
 
   vec3 ncolor = vec3(color);
   
