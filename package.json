@@ -8,7 +8,7 @@
     "@react-spring/three": "^9.0.0-rc.3",
     "babel-plugin-glsl": "^1.0.0",
     "craco-glslify-loader": "^1.0.2",
-    "drei": "^0.0.72",
+    "drei": "1.4.0-beta.0",
     "glsl-easings": "^1.0.0",
     "glsl-noise": "^0.0.0",
     "merge-refs": "^1.0.0",

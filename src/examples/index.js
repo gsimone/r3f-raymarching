@@ -18,6 +18,7 @@ const examples = {
     _: lazy(() => import("./FeedbackInteraction")),
   },
   Voronoi: { title: "13. Voronoi", _: lazy(() => import("./Voronoi")) },
+  Button: { title: "14. Button", _: lazy(() => import("./Button")) },
 };
 
 export default examples;

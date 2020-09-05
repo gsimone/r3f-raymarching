@@ -1,8 +1,6 @@
 import { extend } from "react-three-fiber";
 import { shaderMaterial } from "drei";
 
-import vert from "./defaultVertexShader.glsl";
-
 function getUniforms(inputs) {
   return Object.entries(inputs).reduce((acc, [key, input]) => {
     let _val = input;
@@ -15,15 +13,16 @@ function getUniforms(inputs) {
   }, {});
 }
 
-export default function makeAll(data, frag, tweaks, vertex) {
+export default function makeAll(uniforms, data, frag, tweaks, vertex) {
   const material = shaderMaterial(
     {
       ...getUniforms(data),
+      ...uniforms,
       u_resolution: [0, 0],
       u_time: 0,
       u_mouse: [0, 0],
     },
-    vertex || vert,
+    vertex,
     frag
   );
 
