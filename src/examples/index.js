@@ -19,6 +19,7 @@ const examples = {
   },
   Voronoi: { title: "13. Voronoi", _: lazy(() => import("./Voronoi")) },
   Button: { title: "14. Button", _: lazy(() => import("./Button")) },
+  Deform: { title: "15. Deform", _: lazy(() => import("./Deform")) },
 };
 
 export default examples;

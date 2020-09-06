@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import React, { Suspense, useRef } from "react";
-import { Plane, Sphere, useAspect, useTextureLoader } from "drei";
+import { Plane, Sphere, useAspect, useTextureLoader, Text } from "drei";
 import { Canvas, useFrame } from "react-three-fiber";
 
 import "styled-components/macro";
@@ -80,6 +80,10 @@ function Scene() {
           />
         </sphereExampleMaterial>
       </Sphere>
+
+      <Text position={[-0.1, 0.1, 2]} fontSize={1.5}>
+        4
+      </Text>
 
       <Plane scale={scale} material-color={"#222"} />
     </>

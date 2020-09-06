@@ -47,7 +47,7 @@ void main() {
   ncolor += fresnel * fresnelColor  * 5.;
 
   vec3 zcolor = colorMultiplier * bodyColor * .2;
-  zcolor *= texture2D(bodyTexture, uv - vec2(u_time / 2., 0.)).rgb;
+  // zcolor *= texture2D(bodyTexture, uv - vec2(u_time / 2., 0.)).rgb;
 
   ncolor += zcolor;
 

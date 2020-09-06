@@ -15,13 +15,14 @@ function getUniforms(inputs) {
   }, {});
 }
 
-export default function makeAll(data, frag, tweaks, vertex) {
+export default function makeAll(data, frag, tweaks, vertex, uniforms = {}) {
   const material = shaderMaterial(
     {
       ...getUniforms(data),
       u_resolution: [0, 0],
       u_time: 0,
       u_mouse: [0, 0],
+      ...uniforms,
     },
     vertex || vert,
     frag
