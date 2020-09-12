@@ -21,6 +21,7 @@ export default function makeAll(uniforms, data, frag, tweaks, vertex) {
       u_resolution: [0, 0],
       u_time: 0,
       u_mouse: [0, 0],
+      u_camera: [0, 0, 0],
     },
     vertex,
     frag

@@ -1,5 +1,6 @@
 uniform float u_time;
 uniform vec2 u_resolution;
+uniform vec3 u_camera;
 
 uniform float glowFalloff;
 uniform float glowRange;
@@ -10,6 +11,7 @@ uniform float fresnelNoiseMultiplier;
 uniform float fresnelExponent;
 uniform vec3 fresnelColor;
 
+uniform sampler2D normalMap;
 uniform sampler2D noiseTexture;
 uniform sampler2D bodyTexture;
 
@@ -28,11 +30,12 @@ varying vec3 vColor;
 void main() {
 
   vec2 uv = vUv;
-  float fresnel = dot(vNormal, vec3(0, 0, 1));
+  float fresnel = dot(vNormal, normalize(u_camera));
 
   float bFresnel = fresnel;
 
-  float localnoise = snoise2((uv) + u_time);
+  float localnoise = snoise2((uv) * 1.5 + u_time);
+  vec3 debug_localnoise = vec3(localnoise);
 
   fresnel = 1. - fresnel;
   fresnel = pow(fresnel, fresnelExponent);
@@ -47,9 +50,9 @@ void main() {
   ncolor += fresnel * fresnelColor  * 5.;
 
   vec3 zcolor = colorMultiplier * bodyColor * .2;
-  // zcolor *= texture2D(bodyTexture, uv - vec2(u_time / 2., 0.)).rgb;
+  zcolor *= texture2D(bodyTexture, uv - vec2(u_time / 2., 0.)).rgb;
 
   ncolor += zcolor;
 
-  gl_FragColor = vec4(ncolor, 1.);
+  gl_FragColor = vec4(ncolor, .94);
 }
