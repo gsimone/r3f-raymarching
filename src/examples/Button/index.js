@@ -33,19 +33,17 @@ const tweaks = makeAll(
     bodyTexture: null,
   },
   {
-    color: { value: "#ff4f73" },
-    fresnelColor: { value: "#ff8e11" },
-    fresnelNoiseMultiplier: { value: 30, min: 0, max: 100 },
-    fresnelMultiplier: { value: 30, min: 0, max: 100 },
-    fresnelExponent: { value: 3.37, min: 0, max: 5 },
-    noiseFresnelExponent: { value: 3.37, min: 0, max: 5 },
-    bodyColor: { value: "#ff4f73" },
-    colorMultiplier: { value: 0.5, min: 0, max: 1 },
+    mainColor: { value: "#000000" },
+    noiseColor: { value: "#ff0050" },
+    mainColorMix: { value: 1, min: 0, max: 1 },
+    fresnelBias: { value: 0, min: 0, max: 1, step: 0.001 },
+    fresnelPower: { value: 2.9, min: 0, max: 10 },
+    fresnelScale: { value: 2.14, min: 0, max: 10 },
   },
   frag,
   {
     noiseTextureNumber: {
-      value: 6,
+      value: 5,
       options: {
         domaindist: 0,
         grunge: 1,
@@ -63,13 +61,10 @@ const tweaks = makeAll(
 const TEXTURES = [domaindist, grunge, liquid, perlin, ridge, ridge2, worley];
 
 function Thingie(props) {
-  const {
-    color,
-    fresnelColor,
-    bodyColor,
-    noiseTextureNumber = 0,
-    ...ppp
-  } = useTweaks("Tweaks", tweaks);
+  const { noiseColor, mainColor, noiseTextureNumber = 0, ...ppp } = useTweaks(
+    "Tweaks",
+    tweaks
+  );
 
   const textures = useTextureLoader(TEXTURES);
   const scale = useAspect("cover", window.innerWidth, window.innerHeight, 20);
@@ -99,16 +94,16 @@ function Thingie(props) {
       />
       <Sphere args={[0.16, 64, 64]}>
         <sphereExampleMaterial
+          dispose={null}
           ref={matty}
-          fresnelColor={new THREE.Color(fresnelColor)}
-          color={new THREE.Color(color)}
-          bodyColor={new THREE.Color(bodyColor)}
+          noiseColor={new THREE.Color(noiseColor)}
+          mainColor={new THREE.Color(mainColor)}
           transparent
           {...ppp}
         />
       </Sphere>
 
-      <Text position={[0, 0, 0.12]} fontSize={0.16}>
+      <Text position={[0, 0, 0.1]} fontSize={0.16}>
         4<meshBasicMaterial depthTest={false}></meshBasicMaterial>
       </Text>
 
@@ -124,14 +119,15 @@ export default function CubeExample() {
       colorManagement
       gl={{
         preserveDrawingBuffer: true,
+        antialias: false,
       }}
       camera={{
         position: [0, 0, 0.5],
       }}
     >
       <Suspense fallback={null}>
-        <Thingie position-y={0.16} />
-        <Thingie position-y={-0.16} />
+        <Thingie position-y={0.165} />
+        <Thingie position-y={-0.165} />
       </Suspense>
       <OrbitControls />
 

@@ -1,24 +1,28 @@
 uniform float u_time;
 uniform vec2 u_resolution;
 
+uniform float fresnelBias;
+uniform float fresnelPower;
+uniform float fresnelScale;
+
 varying vec3 vPosition;
 varying vec3 vNormal;
 varying float vNoise;
 varying vec3 vColor;
 varying vec2 vUv;
+varying vec4 vWorldPosition;
 
-#pragma glslify: snoise3 = require(glsl-noise/simplex/3d)
+varying float vReflectionFactor;
 
 void main()	{
     vUv = uv;
-    float updateTime = u_time;
+    vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+	vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
 
-    vec3 world_space_normal = vec3(modelViewMatrix * vec4(normal, 0.0));
-    vNormal = normal;
-    
-    float noise = snoise3(vec3(position + updateTime));
-    vNoise = noise;
-    vPosition = position;
+	vec3 worldNormal = normalize( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal );
 
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+	vec3 I = worldPosition.xyz - cameraPosition;
+	vReflectionFactor = fresnelBias + fresnelScale * pow( 1.0 + dot( normalize( I ), worldNormal ), fresnelPower );
+
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
 }
