@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useRef } from "react";
+import React, { Suspense, useRef } from "react";
 import { Canvas, useFrame } from "react-three-fiber";
 import { Plane, useTextureLoader } from "drei";
 import "styled-components/macro";

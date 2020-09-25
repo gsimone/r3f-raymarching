@@ -1,15 +1,13 @@
 import * as THREE from "three";
 import React, { Suspense, useEffect, useRef } from "react";
 import {
-  Plane,
   Sphere,
-  useAspect,
   useTextureLoader,
   Text,
   OrbitControls,
   useGLTFLoader,
 } from "drei";
-import { Canvas, useFrame, useThree } from "react-three-fiber";
+import { Canvas, useFrame } from "react-three-fiber";
 
 import "styled-components/macro";
 
@@ -33,9 +31,10 @@ const tweaks = makeAll(
     bodyTexture: null,
   },
   {
-    mainColor: { value: "#000000" },
+    mainColor: { value: "#2f0000" },
     noiseColor: { value: "#ff0050" },
     mainColorMix: { value: 1, min: 0, max: 1 },
+    noiseScale: { value: 1, min: 0, max: 1 },
     fresnelBias: { value: 0, min: 0, max: 1, step: 0.001 },
     fresnelPower: { value: 2.9, min: 0, max: 10 },
     fresnelScale: { value: 2.14, min: 0, max: 10 },
@@ -67,15 +66,13 @@ function Thingie(props) {
   );
 
   const textures = useTextureLoader(TEXTURES);
-  const scale = useAspect("cover", window.innerWidth, window.innerHeight, 20);
 
   const matty = useRef();
-  const { camera } = useThree();
-  useFrame(({ clock }) => {
-    matty.current.uniforms.u_time.value = clock.getElapsedTime() / 20;
 
-    const c = camera.position;
-    matty.current.uniforms.u_camera.value = c.toArray();
+  useFrame(({ clock }) => {
+    if (matty.current) {
+      matty.current.uniforms.u_time.value = clock.getElapsedTime() / 20;
+    }
   });
 
   const { nodes, materials } = useGLTFLoader("/cost.glb", true);
@@ -89,12 +86,18 @@ function Thingie(props) {
   return (
     <group {...props}>
       <mesh
+        name="outer"
         material={materials.CardIconography_Mat}
         geometry={nodes.CostMarker_Base.geometry}
       />
-      <Sphere args={[0.16, 64, 64]}>
+
+      <Sphere
+        args={[0.15, 64, 64, 0, Math.PI * 2, 0, Math.PI / 2]}
+        position-z={0.01}
+        rotation-x={Math.PI / 2}
+        name="sphere"
+      >
         <sphereExampleMaterial
-          dispose={null}
           ref={matty}
           noiseColor={new THREE.Color(noiseColor)}
           mainColor={new THREE.Color(mainColor)}
@@ -103,11 +106,14 @@ function Thingie(props) {
         />
       </Sphere>
 
-      <Text position={[0, 0, 0.1]} fontSize={0.16}>
-        4<meshBasicMaterial depthTest={false}></meshBasicMaterial>
+      <Text
+        position={[0, 0, 0.1]}
+        font="https://rawcdn.githack.com/google/fonts/3b179b729ac3306ab2a249d848d94ff08b90a0af/apache/robotoslab/static/RobotoSlab-Black.ttf"
+        fontSize={0.18}
+        name="text"
+      >
+        2<meshBasicMaterial depthTest={false}></meshBasicMaterial>
       </Text>
-
-      <Plane scale={scale} material-color={"#222"} />
     </group>
   );
 }

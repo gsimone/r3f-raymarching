@@ -3,10 +3,7 @@ import React, { Suspense } from "react";
 import { Octahedron, PerspectiveCamera } from "drei";
 import { Canvas, createPortal } from "react-three-fiber";
 
-import "styled-components/macro";
-
-import useCapture from "use-capture";
-import { makeButton, useTweaks } from "use-tweaks";
+import { useTweaks } from "use-tweaks";
 
 import frag from "./frag.glsl";
 import makeAll from "../../common/makeAll";
@@ -76,9 +73,6 @@ function Scene() {
 }
 
 export default function CubeExample() {
-  const [bind, start] = useCapture({ duration: Math.PI * 2, fps: 60 });
-  useTweaks("Capture", makeButton("🔴 Start recording", start));
-
   return (
     <Canvas
       shadowMap
@@ -86,7 +80,6 @@ export default function CubeExample() {
       gl={{
         preserveDrawingBuffer: true,
       }}
-      onCreated={bind}
     >
       <Suspense fallback={null}>
         <Scene />

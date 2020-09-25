@@ -8,8 +8,7 @@ import "styled-components/macro";
 
 import frag from "./frag.glsl";
 import vert from "../../common/defaultVertexShader.glsl";
-import useCapture from "use-capture";
-import { makeButton, useTweaks } from "use-tweaks";
+import { useTweaks } from "use-tweaks";
 
 const material = shaderMaterial(
   {
@@ -18,6 +17,7 @@ const material = shaderMaterial(
     lightness: 5,
     u_resolution: [0, 0],
     u_time: 0,
+    u_mouse: [0, 0],
   },
   vert,
   frag
@@ -27,7 +27,7 @@ function makeTweaksFromMaterial(material) {
   const mat = new material();
   const uniforms = mat.uniforms;
 
-  const { time, u_resolution, ...interesting } = uniforms;
+  const { time, u_resolution, u_time, u_mouse, ...interesting } = uniforms;
 
   return interesting;
 }
@@ -41,9 +41,6 @@ function Scene() {
 }
 
 export default function CubeExample() {
-  const [bind, start] = useCapture({ duration: 2, fps: 60 });
-  useTweaks("Capture", makeButton("🔴 Start recording", start));
-
   return (
     <div
       css={`
@@ -65,7 +62,6 @@ export default function CubeExample() {
         style={{
           background: "#000",
         }}
-        onCreated={bind}
         concurrent
       >
         <color attach="background" args={["#000"]} />

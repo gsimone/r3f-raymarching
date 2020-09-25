@@ -1,12 +1,6 @@
 import * as THREE from "three";
 import React, { useRef, useMemo, useEffect } from "react";
-import {
-  shaderMaterial,
-  useAspect,
-  Plane,
-  Octahedron,
-  PerspectiveCamera,
-} from "drei";
+import { shaderMaterial, useAspect, Plane, Box, PerspectiveCamera } from "drei";
 import {
   Canvas,
   extend,
@@ -128,17 +122,13 @@ function Scene() {
 
   useFrame(({ clock, mouse }) => {
     $animate.current.rotation.x = $animate.current.rotation.y = Math.sin(
-      clock.getElapsedTime() * 2
+      clock.getElapsedTime() * 4
     );
-    $animate.current.rotation.z = Math.cos(clock.getElapsedTime() * 2);
-
-    $animate.current.position.x = Math.sin(clock.getElapsedTime() * 2);
-
-    // $animate.current.position.x = mouse.x * viewport.width / 2
-    // $animate.current.position.y = mouse.y * viewport.height / 2
+    $animate.current.rotation.z = Math.cos(clock.getElapsedTime() * 3.5);
+    $animate.current.rotation.y = Math.cos(clock.getElapsedTime() * 9);
   });
 
-  const { color } = useTweaks({ color: "#660520" });
+  const { color } = useTweaks({ color: "#333" });
 
   return (
     <>
@@ -163,9 +153,9 @@ function Scene() {
         <>
           <ambientLight intensity={0.2} />
           <directionalLight position={[1, 0, 0]} />
-          <Octahedron ref={$animate}>
+          <Box args={[1, 1, 1]} ref={$animate}>
             <meshStandardMaterial color={color} />
-          </Octahedron>
+          </Box>
         </>,
         scene
       )}

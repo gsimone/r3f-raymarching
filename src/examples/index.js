@@ -12,7 +12,6 @@ const examples = {
   terrain: { title: "9. Terrain", _: lazy(() => import("./Terrain")) },
   beats: { title: "10. Beats", _: lazy(() => import("./Beats")) },
   feedback: { title: "11. Feedback", _: lazy(() => import("./Feedback")) },
-  webcam: { title: "12. Webcam", _: lazy(() => import("./Webcam")) },
   feedbackInteraction: {
     title: "12. Feedback Interaction",
     _: lazy(() => import("./FeedbackInteraction")),
