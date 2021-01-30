@@ -1,12 +1,6 @@
 import * as THREE from "three";
 import React, { Suspense, useEffect, useRef } from "react";
-import {
-  Sphere,
-  useTextureLoader,
-  Text,
-  OrbitControls,
-  useGLTFLoader,
-} from "drei";
+import { Sphere, useTextureLoader, OrbitControls } from "drei";
 import { Canvas, useFrame } from "react-three-fiber";
 
 import "styled-components/macro";
@@ -59,7 +53,7 @@ const tweaks = makeAll(
 
 const TEXTURES = [domaindist, grunge, liquid, perlin, ridge, ridge2, worley];
 
-function Thingie(props) {
+function MySphere(props) {
   const { noiseColor, mainColor, noiseTextureNumber = 0, ...ppp } = useTweaks(
     "Tweaks",
     tweaks
@@ -75,8 +69,6 @@ function Thingie(props) {
     }
   });
 
-  const { nodes, materials } = useGLTFLoader("/cost.glb", true);
-
   useEffect(() => {
     const t = textures[noiseTextureNumber];
     t.wrapS = t.wrapT = THREE.RepeatWrapping;
@@ -85,14 +77,8 @@ function Thingie(props) {
 
   return (
     <group {...props}>
-      <mesh
-        name="outer"
-        material={materials.CardIconography_Mat}
-        geometry={nodes.CostMarker_Base.geometry}
-      />
-
       <Sphere
-        args={[0.15, 64, 64, 0, Math.PI * 2, 0, Math.PI / 2]}
+        args={[0.15, 64, 64]}
         position-z={0.01}
         rotation-x={Math.PI / 2}
         name="sphere"
@@ -105,15 +91,6 @@ function Thingie(props) {
           {...ppp}
         />
       </Sphere>
-
-      <Text
-        position={[0, 0, 0.1]}
-        font="https://rawcdn.githack.com/google/fonts/3b179b729ac3306ab2a249d848d94ff08b90a0af/apache/robotoslab/static/RobotoSlab-Black.ttf"
-        fontSize={0.18}
-        name="text"
-      >
-        2<meshBasicMaterial depthTest={false}></meshBasicMaterial>
-      </Text>
     </group>
   );
 }
@@ -131,10 +108,12 @@ export default function CubeExample() {
         position: [0, 0, 0.5],
       }}
     >
+      <color args={"#000"} attach="background" />
+
       <Suspense fallback={null}>
-        <Thingie position-y={0.165} />
-        <Thingie position-y={-0.165} />
+        <MySphere />
       </Suspense>
+
       <OrbitControls />
 
       <ambientLight intensity={2} color={"#ffffff"} />
