@@ -1,6 +1,13 @@
 import * as THREE from "three";
 import React, { useRef, useMemo, useEffect } from "react";
-import { shaderMaterial, useAspect, Plane, Box, PerspectiveCamera } from "drei";
+import {
+  shaderMaterial,
+  useAspect,
+  Plane,
+  Box,
+  PerspectiveCamera,
+  useFBO,
+} from "@react-three/drei";
 import {
   Canvas,
   extend,

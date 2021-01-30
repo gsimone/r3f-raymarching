@@ -1,5 +1,5 @@
 import { extend } from "react-three-fiber";
-import { shaderMaterial } from "drei";
+import { shaderMaterial } from "@react-three/drei";
 
 import vert from "./defaultVertexShader.glsl";
 

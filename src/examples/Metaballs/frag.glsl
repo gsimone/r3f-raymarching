@@ -63,10 +63,12 @@ vec3 getColorAmount(vec3 p) {
 }
 
 void main()	{
-    vec2 uv = gl_FragCoord.xy/u_resolution.xy;
-  
+    vec2 uv = (gl_FragCoord.xy/min(u_resolution.x,u_resolution.y))
+              -vec2(fract(max(u_resolution.x,u_resolution.y)/min(u_resolution.x,u_resolution.y))/2.0,0.0)
+              -0.5;
+
     vec3 camPos = vec3(0, 0, 2.);
-    vec2 p = uv - vec2(0.5);
+    vec2 p = uv;
     vec3 ray = normalize(vec3(p, -1.));
     vec3 rayPos = camPos;
     float curDist = 0.;

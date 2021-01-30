@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import React, { Suspense, useEffect, useRef } from "react";
-import { Sphere, useTextureLoader, OrbitControls } from "drei";
+import { Sphere, useTexture, OrbitControls } from "@react-three/drei";
 import { Canvas, useFrame } from "react-three-fiber";
 
 import "styled-components/macro";
@@ -59,7 +59,7 @@ function MySphere(props) {
     tweaks
   );
 
-  const textures = useTextureLoader(TEXTURES);
+  const textures = useTexture(TEXTURES);
 
   const matty = useRef();
 

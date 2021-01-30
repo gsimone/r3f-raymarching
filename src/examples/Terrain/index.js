@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import React, { Suspense } from "react";
-import { OrbitControls, PerspectiveCamera, Plane } from "drei";
+import { OrbitControls, PerspectiveCamera, Plane } from "@react-three/drei";
 import { Canvas, createPortal } from "react-three-fiber";
 
 import "styled-components/macro";

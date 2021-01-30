@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import React from "react";
-import { shaderMaterial } from "drei";
+import { shaderMaterial } from "@react-three/drei";
 import { Canvas, extend } from "react-three-fiber";
 
 import ShaderPlane from "../../common/ShaderPlane";

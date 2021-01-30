@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import React, { Suspense } from "react";
-import { Octahedron, PerspectiveCamera } from "drei";
+import { Octahedron, PerspectiveCamera } from "@react-three/drei";
 import { Canvas, createPortal } from "react-three-fiber";
 
 import { useTweaks } from "use-tweaks";

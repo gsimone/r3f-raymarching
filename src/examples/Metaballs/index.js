@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { shaderMaterial, Stats } from "drei";
+import { shaderMaterial, Stats } from "@react-three/drei";
 import { Canvas, extend } from "react-three-fiber";
 
 import ShaderPlane from "../../common/ShaderPlane";
@@ -42,34 +42,23 @@ function Scene() {
 
 export default function CubeExample() {
   return (
-    <div
-      css={`
-        width: 600px;
-        height: 600px;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-      `}
+    <Canvas
+      shadowMap
+      colorManagement
+      gl={{
+        preserveDrawingBuffer: true,
+      }}
+      camera={{ position: [0, 0, 2], far: 50 }}
+      style={{
+        background: "#000",
+      }}
+      concurrent
     >
-      <Canvas
-        shadowMap
-        colorManagement
-        gl={{
-          preserveDrawingBuffer: true,
-        }}
-        camera={{ position: [0, 0, 2], far: 50 }}
-        style={{
-          background: "#000",
-        }}
-        concurrent
-      >
-        <color attach="background" args={["#000"]} />
-        <Suspense fallback={null}>
-          <Scene />
-        </Suspense>
-        <Stats />
-      </Canvas>
-    </div>
+      <color attach="background" args={["#000"]} />
+      <Suspense fallback={null}>
+        <Scene />
+      </Suspense>
+      <Stats />
+    </Canvas>
   );
 }

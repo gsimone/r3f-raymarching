@@ -1,5 +1,5 @@
 import { extend } from "react-three-fiber";
-import { shaderMaterial } from "drei";
+import { shaderMaterial } from "@react-three/drei";
 
 function getUniforms(inputs) {
   return Object.entries(inputs).reduce((acc, [key, input]) => {
